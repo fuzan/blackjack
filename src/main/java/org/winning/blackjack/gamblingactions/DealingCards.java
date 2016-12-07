@@ -7,30 +7,33 @@ import org.winning.blackjack.people.BaseUser;
 
 public class DealingCards {
 
-    public CardSum dealCardsToPlayerOrDealer(BaseUser player, Card card){
+    public CardSum dealCardsToPlayerOrDealer(BaseUser player, Card card) {
         card.setShow(true);
-        final CardSum sum = CardSumHelper.getSumOnMoreThanTwoCards(player.getTotalSum(), card);
-        if( sum.getSum() < 21 ){
-            player.getOtherCards().add(card);
-        }else if( sum.getSum() == 21 || sum.getAlternativeSum() == 21){
-            player.getOtherCards().add(card);
-            //player.setResult(Result.WIN);
-        }
-        else{
-            // this is should be in judge not in action
-            //player.setResult(Result.BUSTED);
+        player.getOtherCards().add(card);
+        //dealing with no soft
+        final CardSum sum = CardSumHelper.getSumOnMoreThanTwoCards(player.getCurrentSum().getSum(), card);
+
+        //dealing with soft card
+        if (isSoft(player)) {
+            final CardSum sum2 =
+                    CardSumHelper.getSumOnMoreThanTwoCards(player.getCurrentSum().getAlternativeSum(), card);
+            sum.setAlternativeSum(sum2.getSum());
         }
 
+        player.setCurrentSum(sum);
         return sum;
     }
 
-    public void dealTwoFaceUpCardsToPlayer(Card firstCard, Card secondCard, BaseUser player){
+    public void dealTwoFaceUpCardsToPlayer(Card firstCard, Card secondCard, BaseUser player) {
         firstCard.setShow(true);
         secondCard.setShow(true);
         player.setFirstCard(firstCard);
         player.setSecondCard(secondCard);
-        player.setTotalSum(CardSumHelper.getSum(firstCard, secondCard).getSum());
+        player.setCurrentSum(CardSumHelper.getSum(firstCard, secondCard));
     }
 
-
+    //if alternative value is not 0, then is soft
+    private boolean isSoft(BaseUser player) {
+        return player.getCurrentSum().getAlternativeSum() == 0 ? false : true;
+    }
 }

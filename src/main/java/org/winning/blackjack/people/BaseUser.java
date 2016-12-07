@@ -12,7 +12,8 @@ public class BaseUser {
     protected Card firstCard;
     protected Card secondCard;
     private List<Card> otherCards;
-    private int totalSum;
+    private CardSum currentSum;
+
     private Result result;
     private boolean isBlackJack;
 
@@ -60,11 +61,11 @@ public class BaseUser {
         this.otherCards = otherCards;
     }
 
-    public int getTotalSum() {
-        return totalSum;
+    public CardSum getCurrentSum() {
+        return currentSum;
     }
 
-    public void setTotalSum(int totalSum) {
-        this.totalSum = totalSum;
+    public void setCurrentSum(CardSum currentSum) {
+        this.currentSum = currentSum;
     }
 }
