@@ -1,21 +1,27 @@
 package org.winning.blackjack.people;
 
-import org.winning.blackjack.Card;
-import org.winning.blackjack.CardSum;
+import org.winning.blackjack.entity.Card;
+import org.winning.blackjack.entity.CardSum;
 import org.winning.blackjack.CardValueUtil.CardSumHelper;
-import org.winning.blackjack.Result;
+import org.winning.blackjack.entity.Result;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class BaseUser {
 
+    private String name;
     protected Card firstCard;
     protected Card secondCard;
-    private List<Card> otherCards;
+    private List<Card> otherCards = new LinkedList<>();
     private CardSum currentSum;
 
     private Result result;
     private boolean isBlackJack;
+
+    public BaseUser(String name) {
+        this.name = name;
+    }
 
     public boolean isBlackJack() {
         CardSum sum = CardSumHelper.getSum(firstCard, secondCard);
@@ -67,5 +73,13 @@ public class BaseUser {
 
     public void setCurrentSum(CardSum currentSum) {
         this.currentSum = currentSum;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

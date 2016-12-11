@@ -3,9 +3,9 @@ package org.winning.blackjack.CardValueUtil;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.winning.blackjack.Card;
-import org.winning.blackjack.CardSum;
-import org.winning.blackjack.Color;
+import org.winning.blackjack.entity.Card;
+import org.winning.blackjack.entity.CardSum;
+import org.winning.blackjack.entity.Color;
 
 import java.util.LinkedList;
 import java.util.List;

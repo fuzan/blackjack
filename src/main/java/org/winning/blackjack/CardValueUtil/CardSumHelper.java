@@ -1,7 +1,7 @@
 package org.winning.blackjack.CardValueUtil;
 
-import org.winning.blackjack.Card;
-import org.winning.blackjack.CardSum;
+import org.winning.blackjack.entity.Card;
+import org.winning.blackjack.entity.CardSum;
 
 public class CardSumHelper {
 
