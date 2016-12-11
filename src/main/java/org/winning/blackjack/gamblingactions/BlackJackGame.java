@@ -1,16 +1,13 @@
 package org.winning.blackjack.gamblingactions;
 
-import static org.winning.blackjack.entity.Action.DOUBLE;
-import static org.winning.blackjack.entity.Action.SPLIT;
-import static org.winning.blackjack.entity.Action.STAND;
 import static org.winning.blackjack.entity.Result.BUSTED;
+import static org.winning.blackjack.entity.Result.GO_TO_DEALER;
 import static org.winning.blackjack.entity.Result.LOST;
 import static org.winning.blackjack.entity.Result.WIN;
 
 import org.winning.blackjack.CardValueUtil.BJLogger;
 import org.winning.blackjack.entity.Action;
 import org.winning.blackjack.entity.Card;
-import org.winning.blackjack.entity.CardSum;
 import org.winning.blackjack.entity.Result;
 import org.winning.blackjack.people.BaseUser;
 import org.winning.blackjack.people.Dealer;
@@ -25,7 +22,6 @@ public class BlackJackGame {
     private Dealer dealer;
     private List<Player> players;
     private List<Player> standbyPlayers;
-    private List<Player> splitPlayers;
     private List<Card> cards;
 
     private DealingCards dealingCards;
@@ -107,7 +103,7 @@ public class BlackJackGame {
     public void begin(Player player) {
         dealingCards.dealTwoCardsToPlayer(getNextCard(true), getNextCard(true), player);
         logger.logPlayerOrDealerFirstTwoCard(player);
-        judgeBJ(player);
+        judgeBJOrSplitable(player);
         //go to ask player action
     }
 
@@ -128,42 +124,24 @@ public class BlackJackGame {
         standbyPlayers.clear();
     }
 
-    public void onePlayerRound(Player player, Action action){
-        // play until end
-        while (true) {
-
-            // ask
-            askPlayer(action, player);
-            if (action.equals(DOUBLE) || action.equals(STAND) || BUSTED.equals(player.getResult())) {
-                break;
-            }
-            if( SPLIT.equals(action) ){
-                Player player1 = player.getTwoSplitedPlayer()[0];
-                Player player2 = player.getTwoSplitedPlayer()[1];
-            }
-        }
-    }
-
-    public void askPlayer(Action action, Player player) {
+    public Player[] askPlayer(Action action, Player player) {
+        Player[] players = new Player[2];
         final Card random = getNextCard(true);
         switch (action) {
             case STAND:
+                player.getAction().stand(player);
                 standbyPlayers.add(player);
                 break;
             case HIT:
-                final CardSum sum = dealingCards.dealCardsToPlayerOrDealer(player, random);
-                if (sum.getSum() > 21) {
-                    player.setResult(BUSTED);
+                Result hit_result = player.getAction().hit(player, random);
+                if (GO_TO_DEALER.equals(hit_result)) {
                     standbyPlayers.add(player);
                 }
-                if (player.isSplitted()) {
-                    judgeBJ(player);
-                }
                 logger.logPlayerBehavior(player);
+                players[0] = player;
                 break;
             case DOUBLE:
-                player.setBetting(player.getBetting() * 2);
-                dealingCards.dealCardsToPlayerOrDealer(player, random);
+                player.getAction().double_betting(player, random);
                 logger.logPlayerBehavior(player);
                 standbyPlayers.add(player);
                 break;
@@ -173,17 +151,26 @@ public class BlackJackGame {
                             new SplitPlayer(player.getName() + "_new_player_1.1", player.getName() + "_new_player_1.2",
                                             player);
                     player.setStake(player.getStake() - player.getBetting());
+                    players[0] = splitPlayer.getPlayer1();
+                    players[1] = splitPlayer.getPlayer2();
                 }
                 break;
             default:
                 break;
 
         }
+        return players;
     }
 
     private BaseUser dealerTurn() {
+        // if dealer is soft
+
         //hit to soft17
         while (dealer.getCurrentSum().getSum() < 17) {
+            if (dealer.getCurrentSum().getAlternativeSum() > 17
+                && dealer.getCurrentSum().getAlternativeSum() < 21) {
+                return dealer;
+            }
             dealingCards.dealCardsToPlayerOrDealer(dealer, getNextCard(true));
         }
 
@@ -192,13 +179,17 @@ public class BlackJackGame {
         }
         // do nothing if 17 to 21
         // dealer turn ends
+        logger.logPlayerBehavior(dealer);
         return dealer;
     }
 
-    private void judgeBJ(Player player) {
+    private void judgeBJOrSplitable(Player player) {
         if (player.isBlackJack()) {
             System.out.println(player.getName() + " you are lucky !");
-            askPlayer(STAND, player);
+            player.getAction().stand(player);
+        }
+        if (player.isCanSplit()) {
+            dealingCards.splitPrompt(player);
         }
     }
 
@@ -224,8 +215,9 @@ public class BlackJackGame {
         } else {
             if (BUSTED.equals(dealer.getResult())) {
                 player.setResult(Result.DRAW);
+            }else{
+                player.setResult(LOST);
             }
-            player.setResult(LOST);
         }
         judgePlayerBetting(player);
         player.reset();
@@ -238,7 +230,7 @@ public class BlackJackGame {
         }
 
         int random = CardOperator.generateRandomCard(cards.size());
-        final Card randomCard = cards.get(random);
+        final Card randomCard = cards.get(random - 1);
         randomCard.setShow(isFaceUp);
         cards.remove(randomCard);
         return randomCard;
@@ -279,6 +271,7 @@ public class BlackJackGame {
             case LOST:
                 break;
         }
+        logger.logPlayerResultAndStake(player);
         player.setResult(Result.NEW_GAME);
     }
 

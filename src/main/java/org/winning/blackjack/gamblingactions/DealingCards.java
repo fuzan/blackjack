@@ -5,6 +5,7 @@ import org.winning.blackjack.CardValueUtil.CardSumHelper;
 import org.winning.blackjack.entity.Card;
 import org.winning.blackjack.entity.CardSum;
 import org.winning.blackjack.people.BaseUser;
+import org.winning.blackjack.people.Player;
 
 public class DealingCards {
 
@@ -36,8 +37,8 @@ public class DealingCards {
         player.setCurrentSum(CardSumHelper.getSum(firstCard, secondCard));
     }
 
-    private void splitPrompt(Card card1, Card card2, BaseUser player){
-        if( card1.getName().equals(card2.getName())){
+    public void splitPrompt(Player player){
+        if(player.isCanSplit()){
             logger.pleaseConsiderSplit(player);
         }
     }

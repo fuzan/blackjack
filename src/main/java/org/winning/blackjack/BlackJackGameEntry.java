@@ -3,7 +3,9 @@ package org.winning.blackjack;
 import org.winning.blackjack.CardValueUtil.BJLogger;
 import org.winning.blackjack.gamblingactions.BlackJackGame;
 import org.winning.blackjack.gamblingactions.BlackJackStateMachine;
+import org.winning.blackjack.gamblingactions.DealerAction;
 import org.winning.blackjack.gamblingactions.DealingCards;
+import org.winning.blackjack.gamblingactions.PlayerAction;
 import org.winning.blackjack.input.PlayerInteractionInput;
 import org.winning.blackjack.people.Dealer;
 import org.winning.blackjack.people.Player;
@@ -29,12 +31,21 @@ public class BlackJackGameEntry {
         Player player3 = new Player("player3");
         player3.setStake(99999);
 
+        DealingCards dc = new DealingCards();
+        PlayerAction action = new PlayerAction(dc);
+        DealerAction dealerAction = new DealerAction(dc);
+
+        player1.setAction(action);
+        player2.setAction(action);
+        player3.setAction(action);
+        dealer.setAction(dealerAction);
+
         List<Player> players = new LinkedList<>();
         players.add(player1);
         players.add(player2);
         players.add(player3);
 
-        final BlackJackGame blackJackGame = new BlackJackGame(dealer, players, DECK_NUMBER, new DealingCards(), new BJLogger());
+        final BlackJackGame blackJackGame = new BlackJackGame(dealer, players, DECK_NUMBER, dc, new BJLogger());
         BlackJackStateMachine machine = new BlackJackStateMachine(new PlayerInteractionInput());
         machine.playBlackJack(blackJackGame);
 

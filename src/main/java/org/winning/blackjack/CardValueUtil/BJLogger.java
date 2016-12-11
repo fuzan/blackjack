@@ -42,6 +42,10 @@ public class BJLogger {
                     getCardDetails(dealer.getFirstCard()), secondCardInfo);
     }
 
+    public void logPlayerResultAndStake(Player player){
+        logger.info("{} is {} and remaining stake is {}", player.getName(), player.getResult(), player.getStake());
+    }
+
     public void pleaseConsiderSplit(BaseUser player) {
         logger.info(player.getName() + " Please consider split !!!! ");
     }
