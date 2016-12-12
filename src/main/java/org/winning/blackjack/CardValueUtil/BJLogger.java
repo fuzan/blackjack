@@ -32,9 +32,12 @@ public class BJLogger {
     }
 
     public void pleaseConsiderSplit(BaseUser player) {
-        logger.info(player.getName() + " Please consider split !!!! ");
+        logger.info("{} Please consider split !!!! " + player.getName());
     }
 
+    public void pleaseBet(BaseUser player){
+        logger.info("{}, please bet : ", player.getName());
+    }
     public void logException(String message, Exception ex) {
         logger.error(message + ", " + ex.getMessage(), ex);
     }

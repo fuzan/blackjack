@@ -1,11 +1,11 @@
 package org.winning.blackjack.people;
 
 import org.winning.blackjack.entity.Card;
-import org.winning.blackjack.gamblingactions.DealerAction;
+import org.winning.blackjack.gamblingactions.PlayerDealerCommonAction;
 
 public class Dealer extends BaseUser {
 
-    private DealerAction dealerAction;
+    private PlayerDealerCommonAction dealerAction;
 
     public Dealer(String name) {
         super(name);
@@ -18,11 +18,11 @@ public class Dealer extends BaseUser {
         return null;
     }
 
-    public DealerAction getDealerAction() {
+    public PlayerDealerCommonAction getDealerAction() {
         return dealerAction;
     }
 
-    public void setDealerAction(DealerAction dealerAction) {
+    public void setDealerAction(PlayerDealerCommonAction dealerAction) {
         this.dealerAction = dealerAction;
     }
 }

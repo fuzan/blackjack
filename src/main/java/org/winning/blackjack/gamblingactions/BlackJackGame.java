@@ -83,19 +83,20 @@ public class BlackJackGame {
     }
 
     public void dealCardsToDealer() {
-        dealer.getCommonActions().dealTwoCardsToPlayer(getNextCard(true), getNextCard(false));
+        dealer.getDealerAction().dealTwoCardsToPlayer(getNextCard(true), getNextCard(false));
         logger.logPlayerOrDealerStatus(dealer);
     }
 
     //deal two cards to player and dealer
     public void begin(Player player) {
-        player.getCommonActions().dealTwoCardsToPlayer(getNextCard(true), getNextCard(true));
+        player.getPlayerAction().dealTwoCardsToPlayer(getNextCard(true), getNextCard(true));
         logger.logPlayerOrDealerStatus(player);
         judgeBJOrSplitable(player);
         //go to ask player action
     }
 
     public void askPlayerToBet(Player player, int betting) {
+        logger.pleaseBet(player);
         player.setBetting(betting);
         player.setStake(player.getStake() - betting);
     }
@@ -155,7 +156,7 @@ public class BlackJackGame {
                 && dealer.getCurrentSum().getAlternativeSum() < 21) {
                 return dealer;
             }
-            dealer.getCommonActions().dealCardsToPlayerOrDealer(getNextCard(true));
+            dealer.getDealerAction().dealCardsToPlayerOrDealer(getNextCard(true));
         }
 
         if (dealer.getCurrentSum().getSum() > 21) {

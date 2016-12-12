@@ -4,16 +4,17 @@ import static org.winning.blackjack.entity.Result.BUSTED;
 import static org.winning.blackjack.entity.Result.GO_TO_DEALER;
 import static org.winning.blackjack.entity.Result.JUDGE_BETTING;
 
+import org.winning.blackjack.CardValueUtil.CardSumHelper;
 import org.winning.blackjack.entity.Card;
 import org.winning.blackjack.entity.Result;
-import org.winning.blackjack.people.BaseUser;
+import org.winning.blackjack.people.Dealer;
 import org.winning.blackjack.people.Player;
 
-public class DealerAction extends PlayerDealerCommonAction implements BlackJackAction {
+public class DealerAction extends PlayerDealerCommonAction {
 
-    public DealerAction(BaseUser player) {
-        super(player);
-        player.setCommonActions(this);
+    public DealerAction(Dealer dealer) {
+        super(dealer);
+        dealer.setDealerAction(this);
     }
 
     @Override
@@ -50,5 +51,13 @@ public class DealerAction extends PlayerDealerCommonAction implements BlackJackA
     @Override
     public Player[] split() {
         return null;
+    }
+
+    @Override
+    void dealTwoCardsToPlayer(Card firstCard, Card secondCard) {
+        secondCard.setShow(false);
+        player.getAllCards().add(firstCard);
+        player.getAllCards().add(secondCard);
+        player.setCurrentSum(CardSumHelper.getSum(firstCard, secondCard));
     }
 }

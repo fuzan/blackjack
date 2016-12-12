@@ -61,7 +61,6 @@ public class BlackJackStateMachine {
             if (!player.isInGame()) {
                 continue;
             }
-            System.out.println(player.getName() + ", please bet : ");
             blackJackGame.askPlayerToBet(player, input.askPlayerBetting());
         }
 
@@ -75,11 +74,11 @@ public class BlackJackStateMachine {
             }
 
             while (true) {
-                if (onePlayerOperation(blackJackGame, player)) {
+                if (hitUntilStandOrBusted(blackJackGame, player)) {
                     if (player.isSplitted()) {
                         for (Player splitPlayer : player.getTwoSplitedPlayer()) {
                             while (true) {
-                                if (onePlayerOperation(blackJackGame, splitPlayer)) {
+                                if (hitUntilStandOrBusted(blackJackGame, splitPlayer)) {
                                     break;
                                 }
                             }
@@ -92,9 +91,11 @@ public class BlackJackStateMachine {
         blackJackGame.endGame();
         blackJackGame.getStandbyPlayers().stream().forEach(blackJackGame::endGamePlayer);
         blackJackGame.clearStandBy();
+
+
     }
 
-    private boolean onePlayerOperation(BlackJackGame blackJackGame, Player player) {
+    private boolean hitUntilStandOrBusted(BlackJackGame blackJackGame, Player player) {
         System.out.println(player.getName() + ": please");
         Action action2 = askPlayerAction();
         blackJackGame.askPlayer(action2, player);

@@ -5,6 +5,7 @@ import org.winning.blackjack.gamblingactions.BlackJackGame;
 import org.winning.blackjack.gamblingactions.BlackJackStateMachine;
 import org.winning.blackjack.gamblingactions.DealerAction;
 import org.winning.blackjack.gamblingactions.PlayerAction;
+import org.winning.blackjack.gamblingactions.PlayerDealerCommonAction;
 import org.winning.blackjack.input.PlayerInteractionInput;
 import org.winning.blackjack.people.Dealer;
 import org.winning.blackjack.people.Player;
@@ -29,17 +30,11 @@ public class BlackJackGameEntry {
         Player player3 = new Player("player3");
         player3.setStake(1000);
 
-        PlayerAction action1 = new PlayerAction(player1);
-        player1.setPlayerAction(action1);
+        PlayerDealerCommonAction action1 = new PlayerAction(player1);
+        PlayerDealerCommonAction action2 = new PlayerAction(player2);
+        PlayerDealerCommonAction action3 = new PlayerAction(player3);
 
-        PlayerAction action2 = new PlayerAction(player2);
-        player2.setPlayerAction(action2);
-
-        PlayerAction action3 = new PlayerAction(player3);
-        player3.setPlayerAction(action3);
-
-        DealerAction dealerAction = new DealerAction(dealer);
-        dealer.setDealerAction(dealerAction);
+        PlayerDealerCommonAction dealerAction = new DealerAction(dealer);
 
         List<Player> players = new LinkedList<>();
         players.add(player1);
@@ -49,6 +44,7 @@ public class BlackJackGameEntry {
         final BlackJackGame blackJackGame = new BlackJackGame(dealer, players, DECK_NUMBER, new BJLogger());
         BlackJackStateMachine machine = new BlackJackStateMachine(new PlayerInteractionInput());
         machine.playBlackJack(blackJackGame);
+
 
     }
 }

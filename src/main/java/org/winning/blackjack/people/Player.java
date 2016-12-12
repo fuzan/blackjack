@@ -1,7 +1,7 @@
 package org.winning.blackjack.people;
 
 import org.winning.blackjack.entity.CardSum;
-import org.winning.blackjack.gamblingactions.PlayerAction;
+import org.winning.blackjack.gamblingactions.PlayerDealerCommonAction;
 
 import java.util.LinkedList;
 
@@ -13,7 +13,7 @@ public class Player extends BaseUser {
     private Player parentPlayer;
     private Player[] twoSplitedPlayer = new Player[2];
     private boolean inGame;
-    private PlayerAction playerAction;
+    private PlayerDealerCommonAction playerAction;
 
     public Player(String name) {
         super(name);
@@ -80,11 +80,11 @@ public class Player extends BaseUser {
         this.inGame = inGame;
     }
 
-    public PlayerAction getPlayerAction() {
+    public PlayerDealerCommonAction getPlayerAction() {
         return playerAction;
     }
 
-    public void setPlayerAction(PlayerAction playerAction) {
+    public void setPlayerAction(PlayerDealerCommonAction playerAction) {
         this.playerAction = playerAction;
     }
 

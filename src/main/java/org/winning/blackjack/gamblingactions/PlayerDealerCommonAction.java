@@ -5,7 +5,7 @@ import org.winning.blackjack.entity.Card;
 import org.winning.blackjack.entity.CardSum;
 import org.winning.blackjack.people.BaseUser;
 
-public class PlayerDealerCommonAction {
+public abstract class PlayerDealerCommonAction implements BlackJackAction {
 
     protected BaseUser player;
 
@@ -13,7 +13,9 @@ public class PlayerDealerCommonAction {
         this.player = player;
     }
 
-    protected CardSum dealCardsToPlayerOrDealer(Card card) {
+    abstract void dealTwoCardsToPlayer(Card firstCard, Card secondCard);
+
+    CardSum dealCardsToPlayerOrDealer(Card card) {
         card.setShow(true);
         player.getAllCards().add(card);
         final CardSum sum = CardSumHelper.getSumOnMoreThanTwoCards(player.getCurrentSum().getSum(), card);
@@ -27,12 +29,6 @@ public class PlayerDealerCommonAction {
 
         player.setCurrentSum(sum);
         return sum;
-    }
-
-    protected void dealTwoCardsToPlayer(Card firstCard, Card secondCard) {
-        player.getAllCards().add(firstCard);
-        player.getAllCards().add(secondCard);
-        player.setCurrentSum(CardSumHelper.getSum(firstCard, secondCard));
     }
 
     //if alternative value is not 0, then is soft
