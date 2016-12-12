@@ -2,6 +2,7 @@ package org.winning.blackjack.people;
 
 import org.winning.blackjack.entity.Card;
 import org.winning.blackjack.entity.CardSum;
+import org.winning.blackjack.gamblingactions.PlayerAction;
 
 public class SplitPlayer {
 
@@ -32,6 +33,9 @@ public class SplitPlayer {
         parentPlayer.getTwoSplitedPlayer()[1] = player2;
         player1.setParentPlayer(parentPlayer);
         player2.setParentPlayer(parentPlayer);
+
+        player1.setPlayerAction(new PlayerAction(player1));
+        player2.setPlayerAction(new PlayerAction(player2));
 
         parentPlayer.setSplitted(true);
     }

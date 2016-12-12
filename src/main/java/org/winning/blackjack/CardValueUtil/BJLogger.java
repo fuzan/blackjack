@@ -21,7 +21,7 @@ public class BJLogger {
         if (player.getAllCards().size() > 1 && !player.getAllCards().get(1).isShow()) {
             logger.info("Dealer sum is unknown now!");
         } else {
-            logger.info("player {} sum is {} ", player.getName(), player.getCurrentSum().getSum());
+            logger.info("{} sum is {} ", player.getName(), player.getCurrentSum().getSum());
         }
 
         logger.info("---------------------------------------------------------------------------");

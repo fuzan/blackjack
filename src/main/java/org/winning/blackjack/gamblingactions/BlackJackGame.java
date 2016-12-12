@@ -255,7 +255,11 @@ public class BlackJackGame {
             case LOST:
                 break;
         }
-        logger.logPlayerResultAndStake(player);
+        if (player.getParentPlayer() != null) {
+            logger.logPlayerResultAndStake(player.getParentPlayer());
+        } else {
+            logger.logPlayerResultAndStake(player);
+        }
         player.setResult(Result.NEW_GAME);
     }
 

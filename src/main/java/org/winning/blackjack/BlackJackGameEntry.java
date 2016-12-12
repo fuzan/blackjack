@@ -21,13 +21,13 @@ public class BlackJackGameEntry {
         Dealer dealer = new Dealer("dealer");
 
         Player player1 = new Player("player1");
-        player1.setStake(10000);
+        player1.setStake(1000);
 
         Player player2 = new Player("player2");
-        player2.setStake(99999);
+        player2.setStake(1000);
 
         Player player3 = new Player("player3");
-        player3.setStake(99999);
+        player3.setStake(1000);
 
         PlayerAction action1 = new PlayerAction(player1);
         player1.setPlayerAction(action1);

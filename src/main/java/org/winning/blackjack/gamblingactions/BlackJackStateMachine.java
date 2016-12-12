@@ -95,6 +95,7 @@ public class BlackJackStateMachine {
     }
 
     private boolean onePlayerOperation(BlackJackGame blackJackGame, Player player) {
+        System.out.println(player.getName() + ": please");
         Action action2 = askPlayerAction();
         blackJackGame.askPlayer(action2, player);
         if (!action2.equals(HIT) || BUSTED.equals(player.getResult())) {
