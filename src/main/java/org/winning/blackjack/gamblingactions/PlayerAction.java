@@ -10,19 +10,18 @@ import org.winning.blackjack.people.BaseUser;
 import org.winning.blackjack.people.Player;
 import org.winning.blackjack.people.SplitPlayer;
 
-public class PlayerAction implements BlackJackAction {
+public class PlayerAction extends PlayerDealerCommonAction implements BlackJackAction {
 
-    private DealingCards dealingCards;
-
-    public PlayerAction(DealingCards dealingCards) {
-        this.dealingCards = dealingCards;
+    public PlayerAction(BaseUser player) {
+        super(player);
+        player.setCommonActions(this);
     }
 
     @Override
-    public Result hit(BaseUser player, Card card) {
+    public Result hit(Card card) {
         if (player.getCurrentSum().getSum() <= 21 ||
             player.getCurrentSum().getAlternativeSum() <= 21) {
-            dealingCards.dealCardsToPlayerOrDealer(player, card);
+            dealCardsToPlayerOrDealer(card);
         }
         if (player.getCurrentSum().getSum() > 21) {
             player.setResult(BUSTED);
@@ -34,15 +33,15 @@ public class PlayerAction implements BlackJackAction {
     }
 
     @Override
-    public Result stand(BaseUser player) {
+    public Result stand() {
         // can go to stand by queue
         return GO_TO_DEALER;
     }
 
     @Override
-    public Result double_betting(BaseUser player, Card card) {
+    public Result double_betting(Card card) {
         if (player instanceof Player) {
-            dealingCards.dealCardsToPlayerOrDealer(player, card);
+            dealCardsToPlayerOrDealer(card);
             ((Player) player).setStake(((Player) player).getStake() - ((Player) player).getBetting());
             ((Player) player).setBetting(((Player) player).getBetting() * 2);
         }
@@ -51,7 +50,7 @@ public class PlayerAction implements BlackJackAction {
     }
 
     @Override
-    public Player[] split(BaseUser player) {
+    public Player[] split() {
         if (player instanceof Player) {
             if (((Player) player).isCanSplit()) {
                 SplitPlayer splitPlayer =
@@ -64,4 +63,5 @@ public class PlayerAction implements BlackJackAction {
         // go to ask player interaction
         return null;
     }
+
 }

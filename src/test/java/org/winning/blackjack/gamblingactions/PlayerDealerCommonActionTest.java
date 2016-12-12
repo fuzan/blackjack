@@ -7,12 +7,12 @@ import org.winning.blackjack.entity.Card;
 import org.winning.blackjack.entity.Color;
 import org.winning.blackjack.people.Player;
 
-public class DealingCardsTest {
+public class PlayerDealerCommonActionTest {
 
     private Player player;
-    private DealingCards dealingCards = new DealingCards();
     private Card card1;
     private Card card2;
+    private PlayerAction action;
 
     @Before
     public void setUp() throws Exception {
@@ -20,26 +20,27 @@ public class DealingCardsTest {
         card2 = new Card(Color.CLUB, "two");
 
         player = new Player("tester");
+        action = new PlayerAction(player);
     }
 
     @Test
-    public void dealCardsToPlayerOrDealer() throws Exception {
-        dealingCards.dealTwoCardsToPlayer(card1, card2, player);
+    public void test_dealCardsToPlayerOrDealer() throws Exception {
+        action.dealTwoCardsToPlayer(card1, card2);
         Assert.assertNotEquals(player.isBlackJack(), true);
         Assert.assertEquals(player.getCurrentSum().getSum(), 3);
         Assert.assertEquals(player.getCurrentSum().getAlternativeSum(), 13);
 
         Card card3 = new Card(Color.CLUB, "J");
-        dealingCards.dealTwoCardsToPlayer(card1, card3, player);
+        action.dealTwoCardsToPlayer(card1, card3);
         Assert.assertTrue(player.isBlackJack());
 
         Card card4 = new Card(Color.CLUB, "five");
-        dealingCards.dealTwoCardsToPlayer(card2, card4, player);
+        action.dealTwoCardsToPlayer(card2, card4);
         Assert.assertEquals(player.getCurrentSum().getSum(), 7);
         Assert.assertEquals(player.getCurrentSum().getAlternativeSum(), 0);
         Assert.assertEquals(player.isBlackJack(), false);
 
-        dealingCards.dealTwoCardsToPlayer(card1, card1, player);
+        action.dealTwoCardsToPlayer(card1, card1);
         Assert.assertEquals(player.getCurrentSum().getSum(), 2);
         Assert.assertEquals(player.getCurrentSum().getAlternativeSum(), 0);
         Assert.assertEquals(player.isBlackJack(), false);
@@ -47,15 +48,15 @@ public class DealingCardsTest {
     }
 
     @Test
-    public void dealTwoFaceUpCardsToPlayer() throws Exception {
-        dealingCards.dealTwoCardsToPlayer(card1, card2, player);
-        dealingCards.dealCardsToPlayerOrDealer(player, card1);
+    public void test_dealTwoCardsToPlayer() throws Exception {
+        action.dealTwoCardsToPlayer(card1, card2);
+        action.dealCardsToPlayerOrDealer(card1);
 
         Assert.assertEquals(player.getCurrentSum().getSum(), 4);
         Assert.assertEquals(player.getCurrentSum().getAlternativeSum(), 14);
 
         Card card3 = new Card(Color.CLUB, "J");
-        dealingCards.dealTwoCardsToPlayer(card2, card3, player);
+        action.dealTwoCardsToPlayer(card2, card3);
 
         Assert.assertEquals(player.getCurrentSum().getSum(), 12);
         Assert.assertEquals(player.getCurrentSum().getAlternativeSum(), 0);

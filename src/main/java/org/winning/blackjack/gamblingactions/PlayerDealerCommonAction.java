@@ -1,19 +1,21 @@
 package org.winning.blackjack.gamblingactions;
 
-import org.winning.blackjack.CardValueUtil.BJLogger;
 import org.winning.blackjack.CardValueUtil.CardSumHelper;
 import org.winning.blackjack.entity.Card;
 import org.winning.blackjack.entity.CardSum;
 import org.winning.blackjack.people.BaseUser;
-import org.winning.blackjack.people.Player;
 
-public class DealingCards {
+public class PlayerDealerCommonAction {
 
-    private BJLogger logger = new BJLogger();
+    protected BaseUser player;
 
-    public CardSum dealCardsToPlayerOrDealer(BaseUser player, Card card) {
+    public PlayerDealerCommonAction(BaseUser player) {
+        this.player = player;
+    }
+
+    protected CardSum dealCardsToPlayerOrDealer(Card card) {
         card.setShow(true);
-        player.getOtherCards().add(card);
+        player.getAllCards().add(card);
         final CardSum sum = CardSumHelper.getSumOnMoreThanTwoCards(player.getCurrentSum().getSum(), card);
 
         //dealing with soft card
@@ -27,20 +29,10 @@ public class DealingCards {
         return sum;
     }
 
-    public void dealTwoCardsToPlayer(Card firstCard, Card secondCard, BaseUser player) {
-        player.setFirstCard(firstCard);
-        player.setSecondCard(secondCard);
+    protected void dealTwoCardsToPlayer(Card firstCard, Card secondCard) {
+        player.getAllCards().add(firstCard);
+        player.getAllCards().add(secondCard);
         player.setCurrentSum(CardSumHelper.getSum(firstCard, secondCard));
-    }
-
-    public void splitPrompt(Player player){
-        if(player.isCanSplit()){
-            logger.pleaseConsiderSplit(player);
-        }
-    }
-
-    private void dealSecondCardToPlayer(BaseUser player, Card card) {
-        dealTwoCardsToPlayer(player.getFirstCard(), card, player);
     }
 
     //if alternative value is not 0, then is soft

@@ -24,17 +24,15 @@ public class BlackJackGame {
     private List<Player> standbyPlayers;
     private List<Card> cards;
 
-    private DealingCards dealingCards;
     private int deckNumber;
 
     private BJLogger logger;
 
     public BlackJackGame(Dealer dealer, List<Player> players, int deckNumber,
-                         DealingCards dealingCards, BJLogger logger) {
+                         BJLogger logger) {
         this.dealer = dealer;
         this.players = players;
         this.deckNumber = deckNumber;
-        this.dealingCards = dealingCards;
         this.logger = logger;
         this.standbyPlayers = new LinkedList<>();
     }
@@ -79,27 +77,20 @@ public class BlackJackGame {
         this.players = players;
     }
 
-    public DealingCards getDealingCards() {
-        return dealingCards;
-    }
-
-    public void setDealingCards(DealingCards dealingCards) {
-        this.dealingCards = dealingCards;
-    }
 
     public void ifPlayerDontWantToPlay(Player player, boolean inGame) {
         player.setInGame(inGame);
     }
 
     public void dealCardsToDealer() {
-        dealingCards.dealTwoCardsToPlayer(getNextCard(true), getNextCard(false), dealer);
-        logger.logDealerBehavior(dealer);
+        dealer.getCommonActions().dealTwoCardsToPlayer(getNextCard(true), getNextCard(false));
+        logger.logPlayerOrDealerStatus(dealer);
     }
 
     //deal two cards to player and dealer
     public void begin(Player player) {
-        dealingCards.dealTwoCardsToPlayer(getNextCard(true), getNextCard(true), player);
-        logger.logPlayerOrDealerFirstTwoCard(player);
+        player.getCommonActions().dealTwoCardsToPlayer(getNextCard(true), getNextCard(true));
+        logger.logPlayerOrDealerStatus(player);
         judgeBJOrSplitable(player);
         //go to ask player action
     }
@@ -125,19 +116,19 @@ public class BlackJackGame {
         final Card random = getNextCard(true);
         switch (action) {
             case STAND:
-                player.getAction().stand(player);
+                player.getPlayerAction().stand();
                 standbyPlayers.add(player);
                 break;
             case HIT:
-                Result hit_result = player.getAction().hit(player, random);
+                Result hit_result = player.getPlayerAction().hit(random);
                 if (GO_TO_DEALER.equals(hit_result)) {
                     standbyPlayers.add(player);
                 }
-                logger.logPlayerBehavior(player);
+                logger.logPlayerOrDealerStatus(player);
                 break;
             case DOUBLE:
-                player.getAction().double_betting(player, random);
-                logger.logPlayerBehavior(player);
+                player.getPlayerAction().double_betting(random);
+                logger.logPlayerOrDealerStatus(player);
                 standbyPlayers.add(player);
                 break;
             case SPLIT:
@@ -164,7 +155,7 @@ public class BlackJackGame {
                 && dealer.getCurrentSum().getAlternativeSum() < 21) {
                 return dealer;
             }
-            dealingCards.dealCardsToPlayerOrDealer(dealer, getNextCard(true));
+            dealer.getCommonActions().dealCardsToPlayerOrDealer(getNextCard(true));
         }
 
         if (dealer.getCurrentSum().getSum() > 21) {
@@ -172,17 +163,17 @@ public class BlackJackGame {
         }
         // do nothing if 17 to 21
         // dealer turn ends
-        logger.logPlayerBehavior(dealer);
+        logger.logPlayerOrDealerStatus(dealer);
         return dealer;
     }
 
     private void judgeBJOrSplitable(Player player) {
         if (player.isBlackJack()) {
             System.out.println(player.getName() + " you are lucky !");
-            player.getAction().stand(player);
+            player.getPlayerAction().stand();
         }
         if (player.isCanSplit()) {
-            dealingCards.splitPrompt(player);
+            splitPrompt(player);
         }
     }
 
@@ -193,8 +184,8 @@ public class BlackJackGame {
             dealer.getSecondCard().setShow(true);
         }
 
-        logger.logDealerBehavior(dealer);
-        logger.logPlayerBehavior(dealer);
+        logger.logPlayerOrDealerStatus(dealer);
+        logger.logPlayerOrDealerStatus(dealer);
 
         final int dealerSum = getPlayerBestSum(dealer);
         if (playerSum <= 21) {
@@ -268,5 +259,10 @@ public class BlackJackGame {
         player.setResult(Result.NEW_GAME);
     }
 
+    public void splitPrompt(Player player) {
+        if (player.isCanSplit()) {
+            logger.pleaseConsiderSplit(player);
+        }
+    }
 
 }

@@ -5,21 +5,24 @@ import org.winning.blackjack.gamblingactions.DealerAction;
 
 public class Dealer extends BaseUser {
 
-    public static final String DEALER = "dealer";
+    private DealerAction dealerAction;
 
-    private DealerAction action;
-
-    public Dealer(Card firstCard, Card secondCard) {
-        super(DEALER);
-        super.firstCard = firstCard;
-        super.secondCard = secondCard;
+    public Dealer(String name) {
+        super(name);
     }
 
-    public DealerAction getAction() {
-        return action;
+    public Card getSecondCard(){
+        if( getAllCards().size() > 1 ){
+            return getAllCards().get(1);
+        }
+        return null;
     }
 
-    public void setAction(DealerAction action) {
-        this.action = action;
+    public DealerAction getDealerAction() {
+        return dealerAction;
+    }
+
+    public void setDealerAction(DealerAction dealerAction) {
+        this.dealerAction = dealerAction;
     }
 }

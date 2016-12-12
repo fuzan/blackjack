@@ -5,44 +5,29 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.winning.blackjack.entity.Card;
 import org.winning.blackjack.people.BaseUser;
-import org.winning.blackjack.people.Dealer;
 import org.winning.blackjack.people.Player;
 
-import java.util.List;
+import java.util.Objects;
 
 public class BJLogger {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public void logPlayerOrDealerFirstTwoCard(BaseUser player) {
-        logger.info(" player {}'s first cars is {} and second card is {}", player.getName(),
-                    getCardDetails(player.getFirstCard()), getCardDetails(player.getSecondCard()));
-    }
+    public void logPlayerOrDealerStatus(BaseUser player) {
+        logger.info("---------------------------------------------------------------------------");
+        player.getAllCards().stream().filter(Objects::nonNull).filter(c -> c.isShow())
+                .forEach(c -> logger.info(getCardDetails(c)));
 
-    public void logPlayerNextCard(Player player) {
-        final StringBuilder builder = new StringBuilder();
-        List<Card> allCards = player.getOtherCards();
-        if (allCards != null && allCards.size() > 0) {
-            allCards.stream().forEach(card -> builder.append("{" + getCardDetails(card) + "}, "));
+        if (player.getAllCards().size() > 1 && !player.getAllCards().get(1).isShow()) {
+            logger.info("Dealer sum is unknown now!");
+        } else {
+            logger.info("player {} sum is {} ", player.getName(), player.getCurrentSum().getSum());
         }
-        logger.info(" player {}'s cards are : {}", player.getName(), builder.toString());
+
+        logger.info("---------------------------------------------------------------------------");
     }
 
-
-    public void logPlayerBehavior(BaseUser player) {
-        StringBuilder builder = new StringBuilder();
-        player.getOtherCards().stream().forEach(c -> builder.append(c.getName() + ", "));
-        logger.info(" Player {} got cards : " + player.getName());
-        logger.info(builder.toString());
-    }
-
-    public void logDealerBehavior(Dealer dealer) {
-        final String secondCardInfo = dealer.getSecondCard().isShow() ? getCardDetails(dealer.getSecondCard()) : "";
-        logger.info(" dealer {}'s first cars is {} and second card is {}", dealer.getName(),
-                    getCardDetails(dealer.getFirstCard()), secondCardInfo);
-    }
-
-    public void logPlayerResultAndStake(Player player){
+    public void logPlayerResultAndStake(Player player) {
         logger.info("{} is {} and remaining stake is {}", player.getName(), player.getResult(), player.getStake());
     }
 

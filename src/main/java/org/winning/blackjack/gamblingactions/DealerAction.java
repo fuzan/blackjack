@@ -9,16 +9,15 @@ import org.winning.blackjack.entity.Result;
 import org.winning.blackjack.people.BaseUser;
 import org.winning.blackjack.people.Player;
 
-public class DealerAction implements BlackJackAction {
+public class DealerAction extends PlayerDealerCommonAction implements BlackJackAction {
 
-    private DealingCards dealingCards;
-
-    public DealerAction(DealingCards dealingCards) {
-        this.dealingCards = dealingCards;
+    public DealerAction(BaseUser player) {
+        super(player);
+        player.setCommonActions(this);
     }
 
     @Override
-    public Result hit(BaseUser player, Card card) {
+    public Result hit(Card card) {
         // if dealer is soft
         //hit to soft17
         while (player.getCurrentSum().getSum() < 17) {
@@ -26,7 +25,7 @@ public class DealerAction implements BlackJackAction {
                 && player.getCurrentSum().getAlternativeSum() <= 21) {
                 return JUDGE_BETTING;
             }
-            dealingCards.dealCardsToPlayerOrDealer(player, card);
+            dealCardsToPlayerOrDealer(card);
         }
 
         if (player.getCurrentSum().getSum() > 21) {
@@ -38,18 +37,18 @@ public class DealerAction implements BlackJackAction {
     }
 
     @Override
-    public Result stand(BaseUser player) {
+    public Result stand() {
         // go to final judge
         return JUDGE_BETTING;
     }
 
     @Override
-    public Result double_betting(BaseUser player, Card card) {
+    public Result double_betting(Card card) {
         return null;
     }
 
     @Override
-    public Player[] split(BaseUser player) {
+    public Player[] split() {
         return null;
     }
 }

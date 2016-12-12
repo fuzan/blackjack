@@ -61,7 +61,7 @@ public class BlackJackStateMachine {
             if (!player.isInGame()) {
                 continue;
             }
-            System.out.println(player.getName() + "please bet : ");
+            System.out.println(player.getName() + ", please bet : ");
             blackJackGame.askPlayerToBet(player, input.askPlayerBetting());
         }
 

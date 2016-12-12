@@ -4,7 +4,6 @@ import org.winning.blackjack.CardValueUtil.BJLogger;
 import org.winning.blackjack.gamblingactions.BlackJackGame;
 import org.winning.blackjack.gamblingactions.BlackJackStateMachine;
 import org.winning.blackjack.gamblingactions.DealerAction;
-import org.winning.blackjack.gamblingactions.DealingCards;
 import org.winning.blackjack.gamblingactions.PlayerAction;
 import org.winning.blackjack.input.PlayerInteractionInput;
 import org.winning.blackjack.people.Dealer;
@@ -19,8 +18,7 @@ public class BlackJackGameEntry {
 
     public static void main(String[] args) {
 
-        Dealer dealer = new Dealer(null,null);
-        dealer.setName("dealer1");
+        Dealer dealer = new Dealer("dealer");
 
         Player player1 = new Player("player1");
         player1.setStake(10000);
@@ -31,21 +29,24 @@ public class BlackJackGameEntry {
         Player player3 = new Player("player3");
         player3.setStake(99999);
 
-        DealingCards dc = new DealingCards();
-        PlayerAction action = new PlayerAction(dc);
-        DealerAction dealerAction = new DealerAction(dc);
+        PlayerAction action1 = new PlayerAction(player1);
+        player1.setPlayerAction(action1);
 
-        player1.setAction(action);
-        player2.setAction(action);
-        player3.setAction(action);
-        dealer.setAction(dealerAction);
+        PlayerAction action2 = new PlayerAction(player2);
+        player2.setPlayerAction(action2);
+
+        PlayerAction action3 = new PlayerAction(player3);
+        player3.setPlayerAction(action3);
+
+        DealerAction dealerAction = new DealerAction(dealer);
+        dealer.setDealerAction(dealerAction);
 
         List<Player> players = new LinkedList<>();
         players.add(player1);
         players.add(player2);
         players.add(player3);
 
-        final BlackJackGame blackJackGame = new BlackJackGame(dealer, players, DECK_NUMBER, dc, new BJLogger());
+        final BlackJackGame blackJackGame = new BlackJackGame(dealer, players, DECK_NUMBER, new BJLogger());
         BlackJackStateMachine machine = new BlackJackStateMachine(new PlayerInteractionInput());
         machine.playBlackJack(blackJackGame);
 

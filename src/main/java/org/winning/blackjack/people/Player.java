@@ -1,7 +1,6 @@
 package org.winning.blackjack.people;
 
 import org.winning.blackjack.entity.CardSum;
-import org.winning.blackjack.gamblingactions.DealingCards;
 import org.winning.blackjack.gamblingactions.PlayerAction;
 
 import java.util.LinkedList;
@@ -14,19 +13,10 @@ public class Player extends BaseUser {
     private Player parentPlayer;
     private Player[] twoSplitedPlayer = new Player[2];
     private boolean inGame;
-
-    private PlayerAction action;
+    private PlayerAction playerAction;
 
     public Player(String name) {
         super(name);
-    }
-
-    public PlayerAction getAction() {
-        return action == null ? new PlayerAction(new DealingCards()) : action;
-    }
-
-    public void setAction(PlayerAction action) {
-        this.action = action;
     }
 
     public Player[] getTwoSplitedPlayer() {
@@ -46,13 +36,13 @@ public class Player extends BaseUser {
     }
 
     public boolean isCanSplit() {
-        if (firstCard != null && secondCard != null && getOtherCards().size() > 0) {
+        if (getAllCards().size() != 2) {
             return false;
         }
         if (splitted) {
             return false;
         }
-        return firstCard.getName().equals(secondCard.getName());
+        return getAllCards().get(0).getName().equals(getAllCards().get(1).getName());
     }
 
     public void setCanSplit(boolean canSplit) {
@@ -90,14 +80,20 @@ public class Player extends BaseUser {
         this.inGame = inGame;
     }
 
+    public PlayerAction getPlayerAction() {
+        return playerAction;
+    }
+
+    public void setPlayerAction(PlayerAction playerAction) {
+        this.playerAction = playerAction;
+    }
+
     public void reset() {
         splitted = false;
         parentPlayer = null;
-        firstCard = null;
-        secondCard = null;
         inGame = false;
         setCurrentSum(new CardSum(0));
-        setOtherCards(new LinkedList<>());
+        setAllCards(new LinkedList<>());
         setResult(null);
     }
 }

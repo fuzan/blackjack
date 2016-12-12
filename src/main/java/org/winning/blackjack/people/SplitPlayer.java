@@ -11,17 +11,19 @@ public class SplitPlayer {
     // first and second cards are identical
     public SplitPlayer(String name1, String name2, Player parentPlayer) {
 
+        Card firstCard = parentPlayer.getAllCards().get(0);
+
         player1 = new Player(name1);
-        player1.setFirstCard(parentPlayer.getFirstCard());
-        player1.setCurrentSum(getCardValue(parentPlayer.getFirstCard()));
+        player1.getAllCards().add(firstCard);
+        player1.setCurrentSum(getCardValue(firstCard));
         player1.setBetting(parentPlayer.getBetting());
         player1.setSplitted(true);
         player1.setCanSplit(false);
 
         player2 = new Player(name2);
-        player2.setFirstCard(parentPlayer.getFirstCard());
+        player2.getAllCards().add(firstCard);
 
-        player2.setCurrentSum(getCardValue(parentPlayer.getFirstCard()));
+        player2.setCurrentSum(getCardValue(firstCard));
         player2.setBetting(parentPlayer.getBetting());
         player2.setSplitted(true);
         player2.setCanSplit(false);
