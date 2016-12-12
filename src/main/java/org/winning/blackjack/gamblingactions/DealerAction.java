@@ -9,8 +9,6 @@ import org.winning.blackjack.entity.Result;
 import org.winning.blackjack.people.BaseUser;
 import org.winning.blackjack.people.Player;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 public class DealerAction implements BlackJackAction {
 
     private DealingCards dealingCards;
@@ -47,11 +45,11 @@ public class DealerAction implements BlackJackAction {
 
     @Override
     public Result double_betting(BaseUser player, Card card) {
-        throw new NotImplementedException();
+        return null;
     }
 
     @Override
     public Player[] split(BaseUser player) {
-        throw new NotImplementedException();
+        return null;
     }
 }

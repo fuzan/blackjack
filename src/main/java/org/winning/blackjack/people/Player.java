@@ -1,6 +1,7 @@
 package org.winning.blackjack.people;
 
 import org.winning.blackjack.entity.CardSum;
+import org.winning.blackjack.gamblingactions.DealingCards;
 import org.winning.blackjack.gamblingactions.PlayerAction;
 
 import java.util.LinkedList;
@@ -16,8 +17,12 @@ public class Player extends BaseUser {
 
     private PlayerAction action;
 
+    public Player(String name) {
+        super(name);
+    }
+
     public PlayerAction getAction() {
-        return action;
+        return action == null ? new PlayerAction(new DealingCards()) : action;
     }
 
     public void setAction(PlayerAction action) {
@@ -32,10 +37,6 @@ public class Player extends BaseUser {
         this.twoSplitedPlayer = twoSplitedPlayer;
     }
 
-    public Player(String name) {
-        super(name);
-    }
-
     public Player getParentPlayer() {
         return parentPlayer;
     }
@@ -48,7 +49,7 @@ public class Player extends BaseUser {
         if (firstCard != null && secondCard != null && getOtherCards().size() > 0) {
             return false;
         }
-        if( splitted ){
+        if (splitted) {
             return false;
         }
         return firstCard.getName().equals(secondCard.getName());

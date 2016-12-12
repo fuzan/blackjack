@@ -88,9 +88,6 @@ public class BlackJackGame {
     }
 
     public void ifPlayerDontWantToPlay(Player player, boolean inGame) {
-        if (!inGame) {
-            standbyPlayers.add(player);
-        }
         player.setInGame(inGame);
     }
 
@@ -124,8 +121,7 @@ public class BlackJackGame {
         standbyPlayers.clear();
     }
 
-    public Player[] askPlayer(Action action, Player player) {
-        Player[] players = new Player[2];
+    public void askPlayer(Action action, Player player) {
         final Card random = getNextCard(true);
         switch (action) {
             case STAND:
@@ -138,7 +134,6 @@ public class BlackJackGame {
                     standbyPlayers.add(player);
                 }
                 logger.logPlayerBehavior(player);
-                players[0] = player;
                 break;
             case DOUBLE:
                 player.getAction().double_betting(player, random);
@@ -151,15 +146,13 @@ public class BlackJackGame {
                             new SplitPlayer(player.getName() + "_new_player_1.1", player.getName() + "_new_player_1.2",
                                             player);
                     player.setStake(player.getStake() - player.getBetting());
-                    players[0] = splitPlayer.getPlayer1();
-                    players[1] = splitPlayer.getPlayer2();
+                    player.setTwoSplitedPlayer(new Player[]{splitPlayer.getPlayer1(), splitPlayer.getPlayer2()});
                 }
                 break;
             default:
                 break;
 
         }
-        return players;
     }
 
     private BaseUser dealerTurn() {
@@ -215,7 +208,7 @@ public class BlackJackGame {
         } else {
             if (BUSTED.equals(dealer.getResult())) {
                 player.setResult(Result.DRAW);
-            }else{
+            } else {
                 player.setResult(LOST);
             }
         }

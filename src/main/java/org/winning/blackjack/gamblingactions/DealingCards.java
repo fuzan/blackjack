@@ -13,11 +13,7 @@ public class DealingCards {
 
     public CardSum dealCardsToPlayerOrDealer(BaseUser player, Card card) {
         card.setShow(true);
-        if (player.getSecondCard() == null) {
-            dealSecondCardToPlayer(player, card);
-        } else {
-            player.getOtherCards().add(card);
-        }
+        player.getOtherCards().add(card);
         final CardSum sum = CardSumHelper.getSumOnMoreThanTwoCards(player.getCurrentSum().getSum(), card);
 
         //dealing with soft card

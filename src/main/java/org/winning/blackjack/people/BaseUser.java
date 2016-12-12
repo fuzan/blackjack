@@ -1,8 +1,8 @@
 package org.winning.blackjack.people;
 
+import org.winning.blackjack.CardValueUtil.CardSumHelper;
 import org.winning.blackjack.entity.Card;
 import org.winning.blackjack.entity.CardSum;
-import org.winning.blackjack.CardValueUtil.CardSumHelper;
 import org.winning.blackjack.entity.Result;
 
 import java.util.LinkedList;
@@ -10,9 +10,9 @@ import java.util.List;
 
 public class BaseUser {
 
-    private String name;
     protected Card firstCard;
     protected Card secondCard;
+    private String name;
     private List<Card> otherCards = new LinkedList<>();
     private CardSum currentSum;
 
@@ -24,8 +24,11 @@ public class BaseUser {
     }
 
     public boolean isBlackJack() {
+        if (secondCard == null && otherCards.get(0) != null) {
+            secondCard = otherCards.get(0);
+        }
         CardSum sum = CardSumHelper.getSum(firstCard, secondCard);
-        if( sum.getSum() == 21 || sum.getAlternativeSum() == 21) {
+        if (sum.getSum() == 21 || sum.getAlternativeSum() == 21) {
             return true;
         }
         return false;

@@ -1,7 +1,6 @@
 package org.winning.blackjack.gamblingactions;
 
-import static org.winning.blackjack.entity.Action.DOUBLE;
-import static org.winning.blackjack.entity.Action.STAND;
+import static org.winning.blackjack.entity.Action.HIT;
 import static org.winning.blackjack.entity.Result.BUSTED;
 
 import org.apache.commons.collections4.keyvalue.MultiKey;
@@ -74,39 +73,31 @@ public class BlackJackStateMachine {
             if (!player.isInGame()) {
                 continue;
             }
-            System.out.println(player.getName() + ", please chose your action : ");
 
             while (true) {
                 if (onePlayerOperation(blackJackGame, player)) {
+                    if (player.isSplitted()) {
+                        for (Player splitPlayer : player.getTwoSplitedPlayer()) {
+                            while (true) {
+                                if (onePlayerOperation(blackJackGame, splitPlayer)) {
+                                    break;
+                                }
+                            }
+                        }
+                    }
                     break;
-                }
-
-                if (player.isSplitted()) {
-                    Player player1 = player.getTwoSplitedPlayer()[0];
-                    Player player2 = player.getTwoSplitedPlayer()[1];
-                    while (true) {
-                        if (onePlayerOperation(blackJackGame, player1)) {
-                            break;
-                        }
-                    }
-                    while (true) {
-                        if (onePlayerOperation(blackJackGame, player2)) {
-                            break;
-                        }
-                    }
                 }
             }
         }
-
         blackJackGame.endGame();
-        blackJackGame.getStandbyPlayers().stream().filter(p -> p.isInGame()).forEach(blackJackGame::endGamePlayer);
+        blackJackGame.getStandbyPlayers().stream().forEach(blackJackGame::endGamePlayer);
         blackJackGame.clearStandBy();
     }
 
     private boolean onePlayerOperation(BlackJackGame blackJackGame, Player player) {
         Action action2 = askPlayerAction();
         blackJackGame.askPlayer(action2, player);
-        if (action2.equals(DOUBLE) || action2.equals(STAND) || BUSTED.equals(player.getResult())) {
+        if (!action2.equals(HIT) || BUSTED.equals(player.getResult())) {
             return true;
         }
         return false;
