@@ -1,13 +1,28 @@
 package org.winning.blackjack.people;
 
-import org.winning.blackjack.Card;
+import org.winning.blackjack.entity.Card;
+import org.winning.blackjack.gamblingactions.DealerAction;
 
-public class Dealer extends BaseUser{
+public class Dealer extends BaseUser {
 
+    private DealerAction dealerAction;
 
-    public Dealer(Card firstCard, Card secondCard) {
-        super.firstCard = firstCard;
-        super.secondCard = secondCard;
+    public Dealer(String name) {
+        super(name);
     }
 
+    public Card getSecondCard(){
+        if( getAllCards().size() > 1 ){
+            return getAllCards().get(1);
+        }
+        return null;
+    }
+
+    public DealerAction getDealerAction() {
+        return dealerAction;
+    }
+
+    public void setDealerAction(DealerAction dealerAction) {
+        this.dealerAction = dealerAction;
+    }
 }

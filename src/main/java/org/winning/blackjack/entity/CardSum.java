@@ -1,4 +1,4 @@
-package org.winning.blackjack;
+package org.winning.blackjack.entity;
 
 public class CardSum {
 

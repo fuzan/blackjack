@@ -1,16 +1,16 @@
-package org.winning.blackjack;
+package org.winning.blackjack.entity;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @SuppressWarnings({"PMD.ShortClassName"})
 public class Deck {
 
     private int deckId;
-    private List<Card> deck;
+    private List<Card> cards = new LinkedList<>();
 
-    public Deck(int deckId, List<Card> deck) {
+    public Deck(int deckId) {
         this.deckId = deckId;
-        this.deck = deck;
     }
 
     public int getDeckId() {
@@ -21,11 +21,12 @@ public class Deck {
         this.deckId = deckId;
     }
 
-    public List<Card> getDeck() {
-        return deck;
+    public List<Card> getCards() {
+        return cards;
     }
 
-    public void setDeck(List<Card> deck) {
-        this.deck = deck;
+    public void setCards(List<Card> cards) {
+        this.cards = cards;
     }
+
 }

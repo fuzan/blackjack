@@ -1,4 +1,4 @@
-package org.winning.blackjack;
+package org.winning.blackjack.entity;
 
 @SuppressWarnings({"PMD.ShortClassName"})
 public class Card {
@@ -6,12 +6,22 @@ public class Card {
     private int value;
     private Color color;
     private String name;
+    private int deckId;
     private boolean show;
 
     public Card(Color color, String name) {
         this.color = color;
         this.name = name;
         setValue(name);
+    }
+
+
+    public int getDeckId() {
+        return deckId;
+    }
+
+    public void setDeckId(int deckId) {
+        this.deckId = deckId;
     }
 
     public boolean isShow() {

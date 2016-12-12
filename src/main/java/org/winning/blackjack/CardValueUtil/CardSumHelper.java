@@ -1,22 +1,22 @@
 package org.winning.blackjack.CardValueUtil;
 
-import org.winning.blackjack.Card;
-import org.winning.blackjack.CardSum;
+import org.winning.blackjack.entity.Card;
+import org.winning.blackjack.entity.CardSum;
 
 public class CardSumHelper {
 
     public static CardSum getSum(Card card1, Card card2) {
-
-        final CardSum sum = new CardSum(0);
-
-        if (card1.getName().equals("A") && !card2.getName().equals("A")) {
-            sum.setAlternativeSum(11 + card2.getValue());
-        } else if (card2.getName().equals("A") && !card1.getName().equals("A")) {
-            sum.setAlternativeSum(11 + card1.getValue());
+        if( !card1.getName().equals("A")){
+            return getSumOnMoreThanTwoCards(card1.getValue(), card2);
         }
 
-        sum.setSum(card1.getValue() + card2.getValue());
-        return sum;
+        if( !card2.getName().equals("A")){
+            return getSumOnMoreThanTwoCards(card2.getValue(), card1);
+        }
+
+        // both Ace
+        final CardSum cardSum = new CardSum(2);
+        return cardSum;
     }
 
     public static CardSum getSumOnMoreThanTwoCards(int currentSum, Card card) {
