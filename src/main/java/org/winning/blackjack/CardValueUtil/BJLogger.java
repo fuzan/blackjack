@@ -21,7 +21,9 @@ public class BJLogger {
         if (player.getAllCards().size() > 1 && !player.getAllCards().get(1).isShow()) {
             logger.info("Dealer sum is unknown now!");
         } else {
-            logger.info("{} sum is {} ", player.getName(), player.getCurrentSum().getSum());
+            logger.info("{} sum is {} ", player.getName(), player.getCurrentSum().getAlternativeSum() < 21 ? Math
+                    .max(player.getCurrentSum().getSum(), player.getCurrentSum().getAlternativeSum()) : player
+                                                                   .getCurrentSum().getSum());
         }
 
         logger.info("---------------------------------------------------------------------------");
@@ -35,9 +37,10 @@ public class BJLogger {
         logger.info("{} Please consider split !!!! " + player.getName());
     }
 
-    public void pleaseBet(BaseUser player){
+    public void pleaseBet(BaseUser player) {
         logger.info("{}, please bet : ", player.getName());
     }
+
     public void logException(String message, Exception ex) {
         logger.error(message + ", " + ex.getMessage(), ex);
     }

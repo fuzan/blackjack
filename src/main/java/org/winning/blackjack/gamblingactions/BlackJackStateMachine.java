@@ -1,12 +1,11 @@
 package org.winning.blackjack.gamblingactions;
 
 import static org.winning.blackjack.entity.Action.HIT;
+import static org.winning.blackjack.entity.Action.STAND;
 import static org.winning.blackjack.entity.Result.BUSTED;
 
-import org.apache.commons.collections4.keyvalue.MultiKey;
-import org.apache.commons.collections4.map.MultiKeyMap;
+import org.winning.blackjack.CardValueUtil.BJLogger;
 import org.winning.blackjack.entity.Action;
-import org.winning.blackjack.entity.GameStatus;
 import org.winning.blackjack.input.PlayerInteractionInput;
 import org.winning.blackjack.people.Player;
 
@@ -42,9 +41,7 @@ public class BlackJackStateMachine {
 
     private PlayerInteractionInput input;
 
-    // recording game status
-    // id : player name and dealer name, it should be unique, game status
-    private MultiKeyMap<MultiKey, GameStatus> status = new MultiKeyMap<>();
+    private BJLogger logger = new BJLogger();
 
     public BlackJackStateMachine(PlayerInteractionInput input) {
         this.input = input;
@@ -61,6 +58,7 @@ public class BlackJackStateMachine {
             if (!player.isInGame()) {
                 continue;
             }
+            logger.pleaseBet(player);
             blackJackGame.askPlayerToBet(player, input.askPlayerBetting());
         }
 
@@ -72,17 +70,10 @@ public class BlackJackStateMachine {
             if (!player.isInGame()) {
                 continue;
             }
-
             while (true) {
                 if (hitUntilStandOrBusted(blackJackGame, player)) {
                     if (player.isSplitted()) {
-                        for (Player splitPlayer : player.getTwoSplitedPlayer()) {
-                            while (true) {
-                                if (hitUntilStandOrBusted(blackJackGame, splitPlayer)) {
-                                    break;
-                                }
-                            }
-                        }
+                        splitPlayerTilStandOrBusted(blackJackGame, player);
                     }
                     break;
                 }
@@ -91,8 +82,16 @@ public class BlackJackStateMachine {
         blackJackGame.endGame();
         blackJackGame.getStandbyPlayers().stream().forEach(blackJackGame::endGamePlayer);
         blackJackGame.clearStandBy();
+    }
 
-
+    private void splitPlayerTilStandOrBusted(BlackJackGame blackJackGame, Player player) {
+        for (Player splitPlayer : player.getTwoSplitedPlayer()) {
+            while (true) {
+                if (hitUntilStandOrBusted(blackJackGame, splitPlayer)) {
+                    break;
+                }
+            }
+        }
     }
 
     private boolean hitUntilStandOrBusted(BlackJackGame blackJackGame, Player player) {
@@ -112,6 +111,11 @@ public class BlackJackStateMachine {
 
     private Action askPlayerAction() {
         String actionStr = input.askPlayerAction();
-        return Action.valueOf(actionStr.toUpperCase());
+        try {
+            return Action.valueOf(actionStr.toUpperCase());
+        } catch (Exception ex) {
+            logger.logException("user action input is invalid ! ", ex);
+            return STAND;
+        }
     }
 }

@@ -34,8 +34,8 @@ public class SplitPlayer {
         player1.setParentPlayer(parentPlayer);
         player2.setParentPlayer(parentPlayer);
 
-        player1.setPlayerAction(new PlayerAction(player1));
-        player2.setPlayerAction(new PlayerAction(player2));
+        player1.setBindingAction(new PlayerAction());
+        player2.setBindingAction(new PlayerAction());
 
         parentPlayer.setSplitted(true);
     }

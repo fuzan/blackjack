@@ -13,4 +13,6 @@ public interface BlackJackAction {
     Result double_betting(Card card);
 
     Player[] split();
+
+    Result surrander();
 }

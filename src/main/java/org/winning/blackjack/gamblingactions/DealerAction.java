@@ -7,15 +7,9 @@ import static org.winning.blackjack.entity.Result.JUDGE_BETTING;
 import org.winning.blackjack.CardValueUtil.CardSumHelper;
 import org.winning.blackjack.entity.Card;
 import org.winning.blackjack.entity.Result;
-import org.winning.blackjack.people.Dealer;
 import org.winning.blackjack.people.Player;
 
 public class DealerAction extends PlayerDealerCommonAction {
-
-    public DealerAction(Dealer dealer) {
-        super(dealer);
-        dealer.setDealerAction(this);
-    }
 
     @Override
     public Result hit(Card card) {
@@ -59,5 +53,10 @@ public class DealerAction extends PlayerDealerCommonAction {
         player.getAllCards().add(firstCard);
         player.getAllCards().add(secondCard);
         player.setCurrentSum(CardSumHelper.getSum(firstCard, secondCard));
+    }
+
+    @Override
+    public Result surrander() {
+        throw new UnsupportedOperationException("dealer wont surrander !");
     }
 }

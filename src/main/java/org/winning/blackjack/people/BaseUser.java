@@ -4,6 +4,7 @@ import org.winning.blackjack.CardValueUtil.CardSumHelper;
 import org.winning.blackjack.entity.Card;
 import org.winning.blackjack.entity.CardSum;
 import org.winning.blackjack.entity.Result;
+import org.winning.blackjack.gamblingactions.PlayerDealerCommonAction;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -15,6 +16,7 @@ public class BaseUser {
     private CardSum currentSum;
     private Result result;
     private boolean isBlackJack;
+    private PlayerDealerCommonAction bindingAction;
 
     public BaseUser(String name) {
         this.name = name;
@@ -69,4 +71,12 @@ public class BaseUser {
         this.name = name;
     }
 
+    public PlayerDealerCommonAction getBindingAction() {
+        return bindingAction;
+    }
+
+    public void setBindingAction(PlayerDealerCommonAction bindingAction) {
+        this.bindingAction = bindingAction;
+        bindingAction.setPlayer(this);
+    }
 }

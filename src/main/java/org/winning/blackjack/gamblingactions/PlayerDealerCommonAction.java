@@ -9,10 +9,6 @@ public abstract class PlayerDealerCommonAction implements BlackJackAction {
 
     protected BaseUser player;
 
-    public PlayerDealerCommonAction(BaseUser player) {
-        this.player = player;
-    }
-
     abstract void dealTwoCardsToPlayer(Card firstCard, Card secondCard);
 
     CardSum dealCardsToPlayerOrDealer(Card card) {
@@ -34,5 +30,13 @@ public abstract class PlayerDealerCommonAction implements BlackJackAction {
     //if alternative value is not 0, then is soft
     private boolean isSoft(BaseUser player) {
         return player.getCurrentSum().getAlternativeSum() == 0 ? false : true;
+    }
+
+    public BaseUser getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(BaseUser player) {
+        this.player = player;
     }
 }

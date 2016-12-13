@@ -11,12 +11,7 @@ import org.winning.blackjack.entity.Result;
 import org.winning.blackjack.people.Player;
 import org.winning.blackjack.people.SplitPlayer;
 
-public class PlayerAction extends PlayerDealerCommonAction{
-
-    public PlayerAction(Player player) {
-        super(player);
-        player.setPlayerAction(this);
-    }
+public class PlayerAction extends PlayerDealerCommonAction {
 
     @Override
     public Result hit(Card card) {
@@ -42,9 +37,12 @@ public class PlayerAction extends PlayerDealerCommonAction{
     @Override
     public Result double_betting(Card card) {
         if (player instanceof Player) {
+
+            int bettings = CardSumHelper.calculateBetting(((Player) player).getBetting());
+
             dealCardsToPlayerOrDealer(card);
-            ((Player) player).setStake(((Player) player).getStake() - ((Player) player).getBetting());
-            ((Player) player).setBetting(((Player) player).getBetting() * 2);
+            ((Player) player).setStake(((Player) player).getStake() - bettings);
+            ((Player) player).setBetting(CardSumHelper.copyChips(((Player) player).getBetting()));
         }
         // go to stand by queue
         return GO_TO_DEALER;
@@ -57,7 +55,9 @@ public class PlayerAction extends PlayerDealerCommonAction{
                 SplitPlayer splitPlayer =
                         new SplitPlayer(player.getName() + "_new_player_1.1", player.getName() + "_new_player_1.2",
                                         ((Player) player));
-                ((Player) player).setStake(((Player) player).getStake() - ((Player) player).getBetting());
+                ((Player) player)
+                        .setStake(((Player) player).getStake() - CardSumHelper
+                                .calculateBetting(((Player) player).getBetting()));
                 return new Player[]{splitPlayer.getPlayer1(), splitPlayer.getPlayer2()};
             }
         }
@@ -75,5 +75,13 @@ public class PlayerAction extends PlayerDealerCommonAction{
         player.getAllCards().add(firstCard);
         player.getAllCards().add(secondCard);
         player.setCurrentSum(CardSumHelper.getSum(firstCard, secondCard));
+    }
+
+    @Override
+    public Result surrander() {
+        int bettings = CardSumHelper.calculateBetting(((Player) player).getBetting());
+        ((Player) player).setStake(((Player) player).getStake() + bettings / 2);
+        player.setResult(BUSTED);
+        return GO_TO_DEALER;
     }
 }

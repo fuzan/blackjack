@@ -1,19 +1,19 @@
 package org.winning.blackjack.people;
 
 import org.winning.blackjack.entity.CardSum;
-import org.winning.blackjack.gamblingactions.PlayerDealerCommonAction;
+import org.winning.blackjack.entity.Chips;
 
 import java.util.LinkedList;
+import java.util.List;
 
 public class Player extends BaseUser {
 
     private int stake;
-    private int betting;
+    private List<Chips> betting;
     private boolean splitted;
     private Player parentPlayer;
     private Player[] twoSplitedPlayer = new Player[2];
     private boolean inGame;
-    private PlayerDealerCommonAction playerAction;
 
     public Player(String name) {
         super(name);
@@ -56,14 +56,6 @@ public class Player extends BaseUser {
         this.stake = stake;
     }
 
-    public int getBetting() {
-        return betting;
-    }
-
-    public void setBetting(int betting) {
-        this.betting = betting;
-    }
-
     public boolean isSplitted() {
         return splitted;
     }
@@ -80,12 +72,12 @@ public class Player extends BaseUser {
         this.inGame = inGame;
     }
 
-    public PlayerDealerCommonAction getPlayerAction() {
-        return playerAction;
+    public List<Chips> getBetting() {
+        return betting;
     }
 
-    public void setPlayerAction(PlayerDealerCommonAction playerAction) {
-        this.playerAction = playerAction;
+    public void setBetting(List<Chips> betting) {
+        this.betting = betting;
     }
 
     public void reset() {
