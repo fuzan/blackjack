@@ -20,7 +20,8 @@ public class PlayerDealerCommonActionTest {
         card2 = new Card(Color.CLUB, "two");
 
         player = new Player("tester");
-        action = new PlayerAction(player);
+        action = new PlayerAction();
+        player.setBindingAction(action);
     }
 
     @Test
@@ -32,7 +33,7 @@ public class PlayerDealerCommonActionTest {
 
         Card card3 = new Card(Color.CLUB, "J");
         action.dealTwoCardsToPlayer(card1, card3);
-        Assert.assertTrue(player.isBlackJack());
+        Assert.assertFalse(player.isBlackJack());
 
         Card card4 = new Card(Color.CLUB, "five");
         action.dealTwoCardsToPlayer(card2, card4);
