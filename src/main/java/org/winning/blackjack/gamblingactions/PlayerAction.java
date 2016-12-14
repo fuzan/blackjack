@@ -1,6 +1,5 @@
 package org.winning.blackjack.gamblingactions;
 
-import static org.winning.blackjack.entity.Result.BUSTED;
 import static org.winning.blackjack.entity.Result.GO_TO_DEALER;
 import static org.winning.blackjack.entity.Result.MIDDLE_GAME;
 
@@ -13,14 +12,16 @@ import org.winning.blackjack.people.SplitPlayer;
 
 public class PlayerAction extends PlayerDealerCommonAction {
 
+    public static final String NEW_PLAYER_1_1 = "_new_player_1.1";
+    public static final String NEW_PLAYER_1_2 = "_new_player_1.2";
+
     @Override
     public Result hit(Card card) {
-        if (player.getCurrentSum().getSum() <= 21 ||
-            player.getCurrentSum().getAlternativeSum() <= 21) {
+        if (player.getCurrentSum().getSum() < 21 ||
+            player.getCurrentSum().getAlternativeSum() < 21) {
             dealCardsToPlayerOrDealer(card);
         }
-        if (player.getCurrentSum().getSum() > 21) {
-            player.setResult(BUSTED);
+        if (player.getCurrentSum().getSum() >= 21) {
             // can go to stand by queue
             return GO_TO_DEALER;
         }
@@ -49,20 +50,20 @@ public class PlayerAction extends PlayerDealerCommonAction {
     }
 
     @Override
-    public Player[] split() {
+    public Result split() {
         if (player instanceof Player) {
             if (((Player) player).isCanSplit()) {
                 SplitPlayer splitPlayer =
-                        new SplitPlayer(player.getName() + "_new_player_1.1", player.getName() + "_new_player_1.2",
+                        new SplitPlayer(player.getName() + NEW_PLAYER_1_1, player.getName() + NEW_PLAYER_1_2,
                                         ((Player) player));
                 ((Player) player)
                         .setStake(((Player) player).getStake() - CardSumHelper
                                 .calculateBetting(((Player) player).getBetting()));
-                return new Player[]{splitPlayer.getPlayer1(), splitPlayer.getPlayer2()};
+                return MIDDLE_GAME;
             }
         }
         // go to ask player interaction
-        return null;
+        return GO_TO_DEALER;
     }
 
     @Override
@@ -81,7 +82,6 @@ public class PlayerAction extends PlayerDealerCommonAction {
     public Result surrander() {
         int bettings = CardSumHelper.calculateBetting(((Player) player).getBetting());
         ((Player) player).setStake(((Player) player).getStake() + bettings / 2);
-        player.setResult(BUSTED);
         return GO_TO_DEALER;
     }
 }

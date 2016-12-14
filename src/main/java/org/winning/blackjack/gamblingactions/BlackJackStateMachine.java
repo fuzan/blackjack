@@ -2,7 +2,6 @@ package org.winning.blackjack.gamblingactions;
 
 import static org.winning.blackjack.entity.Action.HIT;
 import static org.winning.blackjack.entity.Action.STAND;
-import static org.winning.blackjack.entity.Result.BUSTED;
 
 import org.winning.blackjack.CardValueUtil.BJLogger;
 import org.winning.blackjack.entity.Action;
@@ -98,7 +97,7 @@ public class BlackJackStateMachine {
         System.out.println(player.getName() + ": please");
         Action action2 = askPlayerAction();
         blackJackGame.askPlayer(action2, player);
-        if (!action2.equals(HIT) || BUSTED.equals(player.getResult())) {
+        if (!action2.equals(HIT) || player.getCurrentSum().getSum() > 21) {
             return true;
         }
         return false;

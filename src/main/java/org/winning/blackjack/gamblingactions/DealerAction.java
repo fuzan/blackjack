@@ -1,13 +1,11 @@
 package org.winning.blackjack.gamblingactions;
 
-import static org.winning.blackjack.entity.Result.BUSTED;
 import static org.winning.blackjack.entity.Result.GO_TO_DEALER;
 import static org.winning.blackjack.entity.Result.JUDGE_BETTING;
 
 import org.winning.blackjack.CardValueUtil.CardSumHelper;
 import org.winning.blackjack.entity.Card;
 import org.winning.blackjack.entity.Result;
-import org.winning.blackjack.people.Player;
 
 public class DealerAction extends PlayerDealerCommonAction {
 
@@ -23,9 +21,6 @@ public class DealerAction extends PlayerDealerCommonAction {
             dealCardsToPlayerOrDealer(card);
         }
 
-        if (player.getCurrentSum().getSum() > 21) {
-            player.setResult(BUSTED);
-        }
         // do nothing if 17 to 21
         // dealer turn again if less than 17
         return GO_TO_DEALER;
@@ -43,7 +38,7 @@ public class DealerAction extends PlayerDealerCommonAction {
     }
 
     @Override
-    public Player[] split() {
+    public Result split() {
         return null;
     }
 

@@ -37,6 +37,11 @@ public class BJLogger {
         logger.info("{} Please consider split !!!! " + player.getName());
     }
 
+    public void luckyDog(BaseUser player) {
+        logger.info("{} BJ !, you are lucky ! : ", player.getName());
+    }
+
+
     public void pleaseBet(BaseUser player) {
         logger.info("{}, please bet : ", player.getName());
     }
