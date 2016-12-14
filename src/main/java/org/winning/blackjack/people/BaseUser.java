@@ -14,9 +14,9 @@ public class BaseUser {
     private String name;
     private List<Card> allCards = new LinkedList<>();
     private CardSum currentSum;
-    private PlayerDealerCommonAction commonActions;
     private Result result;
     private boolean isBlackJack;
+    private PlayerDealerCommonAction bindingAction;
 
     public BaseUser(String name) {
         this.name = name;
@@ -71,11 +71,12 @@ public class BaseUser {
         this.name = name;
     }
 
-    public PlayerDealerCommonAction getCommonActions() {
-        return commonActions;
+    public PlayerDealerCommonAction getBindingAction() {
+        return bindingAction;
     }
 
-    public void setCommonActions(PlayerDealerCommonAction commonActions) {
-        this.commonActions = commonActions;
+    public void setBindingAction(PlayerDealerCommonAction bindingAction) {
+        this.bindingAction = bindingAction;
+        bindingAction.setPlayer(this);
     }
 }

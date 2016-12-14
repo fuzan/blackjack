@@ -2,7 +2,6 @@ package org.winning.blackjack.gamblingactions;
 
 import org.winning.blackjack.entity.Card;
 import org.winning.blackjack.entity.Result;
-import org.winning.blackjack.people.Player;
 
 public interface BlackJackAction {
 
@@ -12,5 +11,7 @@ public interface BlackJackAction {
 
     Result double_betting(Card card);
 
-    Player[] split();
+    Result split();
+
+    Result surrander();
 }

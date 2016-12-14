@@ -19,27 +19,20 @@ public class BlackJackGameEntry {
     public static void main(String[] args) {
 
         Dealer dealer = new Dealer("dealer");
+        dealer.setBindingAction(new DealerAction());
 
         Player player1 = new Player("player1");
-        player1.setStake(1000);
+        player1.setBindingAction(new PlayerAction());
+        player1.setStake(10000);
 
         Player player2 = new Player("player2");
-        player2.setStake(1000);
+        player2.setBindingAction(new PlayerAction());
+        player2.setStake(10000);
 
         Player player3 = new Player("player3");
-        player3.setStake(1000);
+        player3.setBindingAction(new PlayerAction());
+        player3.setStake(10000);
 
-        PlayerAction action1 = new PlayerAction(player1);
-        player1.setPlayerAction(action1);
-
-        PlayerAction action2 = new PlayerAction(player2);
-        player2.setPlayerAction(action2);
-
-        PlayerAction action3 = new PlayerAction(player3);
-        player3.setPlayerAction(action3);
-
-        DealerAction dealerAction = new DealerAction(dealer);
-        dealer.setDealerAction(dealerAction);
 
         List<Player> players = new LinkedList<>();
         players.add(player1);
@@ -49,6 +42,5 @@ public class BlackJackGameEntry {
         final BlackJackGame blackJackGame = new BlackJackGame(dealer, players, DECK_NUMBER, new BJLogger());
         BlackJackStateMachine machine = new BlackJackStateMachine(new PlayerInteractionInput());
         machine.playBlackJack(blackJackGame);
-
     }
 }

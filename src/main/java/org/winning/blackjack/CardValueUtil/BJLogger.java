@@ -21,9 +21,10 @@ public class BJLogger {
         if (player.getAllCards().size() > 1 && !player.getAllCards().get(1).isShow()) {
             logger.info("Dealer sum is unknown now!");
         } else {
-            logger.info("{} sum is {} ", player.getName(), player.getCurrentSum().getSum());
+            logger.info("{} sum is {} ", player.getName(), player.getCurrentSum().getAlternativeSum() < 21 ? Math
+                    .max(player.getCurrentSum().getSum(), player.getCurrentSum().getAlternativeSum()) : player
+                                                                   .getCurrentSum().getSum());
         }
-
         logger.info("---------------------------------------------------------------------------");
     }
 
@@ -32,7 +33,16 @@ public class BJLogger {
     }
 
     public void pleaseConsiderSplit(BaseUser player) {
-        logger.info(player.getName() + " Please consider split !!!! ");
+        logger.info("{} Please consider split !!!! " + player.getName());
+    }
+
+    public void luckyDog(BaseUser player) {
+        logger.info("{} BJ !, you are lucky ! : ", player.getName());
+    }
+
+
+    public void pleaseBet(BaseUser player) {
+        logger.info("{}, please bet : ", player.getName());
     }
 
     public void logException(String message, Exception ex) {

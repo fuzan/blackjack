@@ -1,20 +1,13 @@
 package org.winning.blackjack.gamblingactions;
 
-import static org.winning.blackjack.entity.Result.BUSTED;
 import static org.winning.blackjack.entity.Result.GO_TO_DEALER;
 import static org.winning.blackjack.entity.Result.JUDGE_BETTING;
 
+import org.winning.blackjack.CardValueUtil.CardSumHelper;
 import org.winning.blackjack.entity.Card;
 import org.winning.blackjack.entity.Result;
-import org.winning.blackjack.people.BaseUser;
-import org.winning.blackjack.people.Player;
 
-public class DealerAction extends PlayerDealerCommonAction implements BlackJackAction {
-
-    public DealerAction(BaseUser player) {
-        super(player);
-        player.setCommonActions(this);
-    }
+public class DealerAction extends PlayerDealerCommonAction {
 
     @Override
     public Result hit(Card card) {
@@ -28,9 +21,6 @@ public class DealerAction extends PlayerDealerCommonAction implements BlackJackA
             dealCardsToPlayerOrDealer(card);
         }
 
-        if (player.getCurrentSum().getSum() > 21) {
-            player.setResult(BUSTED);
-        }
         // do nothing if 17 to 21
         // dealer turn again if less than 17
         return GO_TO_DEALER;
@@ -48,7 +38,20 @@ public class DealerAction extends PlayerDealerCommonAction implements BlackJackA
     }
 
     @Override
-    public Player[] split() {
+    public Result split() {
         return null;
+    }
+
+    @Override
+    void dealTwoCardsToPlayer(Card firstCard, Card secondCard) {
+        secondCard.setShow(false);
+        player.getAllCards().add(firstCard);
+        player.getAllCards().add(secondCard);
+        player.setCurrentSum(CardSumHelper.getSum(firstCard, secondCard));
+    }
+
+    @Override
+    public Result surrander() {
+        throw new UnsupportedOperationException("dealer wont surrander !");
     }
 }
