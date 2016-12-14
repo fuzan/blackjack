@@ -162,7 +162,6 @@ public class BlackJackGame {
     private void judgeBJOrSplitable(Player player) {
         if (player.isBlackJack()) {
             logger.luckyDog(player);
-            player.getBindingAction().stand();
         }
         if (player.isCanSplit()) {
             splitPrompt(player);

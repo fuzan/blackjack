@@ -41,7 +41,7 @@ public class CardSumHelper {
         return bettings.getSum();
     }
 
-    public static List<Chips> copyChips(List<Chips> origin) {
+    public static List<Chips> doubleChips(List<Chips> origin) {
         List<Chips> newone = new ArrayList<>();
         origin.stream().filter(Objects::nonNull).forEach(c -> {
             newone.add(c);

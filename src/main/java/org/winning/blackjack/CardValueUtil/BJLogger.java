@@ -25,7 +25,6 @@ public class BJLogger {
                     .max(player.getCurrentSum().getSum(), player.getCurrentSum().getAlternativeSum()) : player
                                                                    .getCurrentSum().getSum());
         }
-
         logger.info("---------------------------------------------------------------------------");
     }
 

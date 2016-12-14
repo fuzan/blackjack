@@ -69,6 +69,10 @@ public class BlackJackStateMachine {
             if (!player.isInGame()) {
                 continue;
             }
+            if (player.isBlackJack()) {
+                noActionForBJPlayer(blackJackGame, player);
+                continue;
+            }
             while (true) {
                 if (hitUntilStandOrBusted(blackJackGame, player)) {
                     if (player.isSplitted()) {
@@ -91,6 +95,10 @@ public class BlackJackStateMachine {
                 }
             }
         }
+    }
+
+    private void noActionForBJPlayer(BlackJackGame blackJackGame, Player player) {
+        blackJackGame.askPlayer(STAND, player);
     }
 
     private boolean hitUntilStandOrBusted(BlackJackGame blackJackGame, Player player) {

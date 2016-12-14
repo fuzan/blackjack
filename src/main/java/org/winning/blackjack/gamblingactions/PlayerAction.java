@@ -43,7 +43,7 @@ public class PlayerAction extends PlayerDealerCommonAction {
 
             dealCardsToPlayerOrDealer(card);
             ((Player) player).setStake(((Player) player).getStake() - bettings);
-            ((Player) player).setBetting(CardSumHelper.copyChips(((Player) player).getBetting()));
+            ((Player) player).setBetting(CardSumHelper.doubleChips(((Player) player).getBetting()));
         }
         // go to stand by queue
         return GO_TO_DEALER;
