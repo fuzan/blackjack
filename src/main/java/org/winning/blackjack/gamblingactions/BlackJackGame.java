@@ -128,8 +128,8 @@ public class BlackJackGame {
                 break;
             case DOUBLE:
                 player.getBindingAction().double_betting(random);
-                logger.logPlayerOrDealerStatus(player);
                 standbyPlayers.add(player);
+                logger.logPlayerOrDealerStatus(player);
                 break;
             case SPLIT:
                 if (player.isCanSplit()) {
@@ -160,12 +160,8 @@ public class BlackJackGame {
     }
 
     private void judgeBJOrSplitable(Player player) {
-        if (player.isBlackJack()) {
-            logger.luckyDog(player);
-        }
-        if (player.isCanSplit()) {
-            splitPrompt(player);
-        }
+        bjPrompt(player);
+        splitPrompt(player);
     }
 
     private void judge(Player player) {
@@ -241,17 +237,22 @@ public class BlackJackGame {
             case LOST:
                 break;
         }
-        if (player.getParentPlayer() != null) {
+        if (player.isSplitted()) {
             logger.logPlayerResultAndStake(player.getParentPlayer());
         } else {
             logger.logPlayerResultAndStake(player);
         }
     }
 
-    public void splitPrompt(Player player) {
+    private void splitPrompt(Player player) {
         if (player.isCanSplit()) {
             logger.pleaseConsiderSplit(player);
         }
     }
 
+    private void bjPrompt(Player player) {
+        if (player.isBlackJack()) {
+            logger.luckyDog(player);
+        }
+    }
 }
