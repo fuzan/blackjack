@@ -20,6 +20,7 @@ import java.util.List;
 
 public class BlackJackGame {
 
+    private int gameId;
     private Dealer dealer;
     private List<Player> players;
     private List<Player> standbyPlayers;
@@ -35,6 +36,14 @@ public class BlackJackGame {
         this.deckNumber = deckNumber;
         this.logger = logger;
         this.standbyPlayers = new LinkedList<>();
+    }
+
+    public int getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(int gameId) {
+        this.gameId = gameId;
     }
 
     public List<Player> getStandbyPlayers() {

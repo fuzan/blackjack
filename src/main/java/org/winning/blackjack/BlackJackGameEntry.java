@@ -33,14 +33,14 @@ public class BlackJackGameEntry {
         player3.setBindingAction(new PlayerAction());
         player3.setStake(10000);
 
-
         List<Player> players = new LinkedList<>();
         players.add(player1);
         players.add(player2);
         players.add(player3);
 
+        final PlayerInteractionInput input = new PlayerInteractionInput();
         final BlackJackGame blackJackGame = new BlackJackGame(dealer, players, DECK_NUMBER, new BJLogger());
-        BlackJackStateMachine machine = new BlackJackStateMachine(new PlayerInteractionInput());
+        BlackJackStateMachine machine = new BlackJackStateMachine(input);
         machine.playBlackJack(blackJackGame);
     }
 }

@@ -35,7 +35,7 @@ public class PlayerInteractionInput {
     }
 
     public String askPlayerAction() {
-        System.out.println("hit/split/double/stand ?");
+        System.out.println("hit/split/double/stand/surrander ?");
         try {
             final BufferedReader reader = getUserInput();
             return reader.readLine();

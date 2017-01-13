@@ -59,6 +59,7 @@ public class PlayerAction extends PlayerDealerCommonAction {
                 ((Player) player)
                         .setStake(((Player) player).getStake() - CardSumHelper
                                 .calculateBetting(((Player) player).getBetting()));
+                ((Player) player).setSplitedPlayer(splitPlayer);
                 return MIDDLE_GAME;
             }
         }
