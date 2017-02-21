@@ -11,27 +11,25 @@ import java.util.Objects;
 public class CardSumHelper {
 
     public static CardSum getSum(Card card1, Card card2) {
-        if (!card1.getName().equals("A")) {
-            return getSumOnMoreThanTwoCards(card1.getValue(), card2);
-        }
-
-        if (!card2.getName().equals("A")) {
-            return getSumOnMoreThanTwoCards(card2.getValue(), card1);
-        }
 
         // both Ace
-        final CardSum cardSum = new CardSum(2);
-        return cardSum;
-    }
-
-    public static CardSum getSumOnMoreThanTwoCards(int currentSum, Card card) {
-        final CardSum cardSum = new CardSum(currentSum);
-
-        if (card.getName().equals("A")) {
-            cardSum.setAlternativeSum(currentSum + 11);
+        if (card1.getName().equals("A") && card2.getName().equals("A")) {
+            return new CardSum(2);
         }
 
-        cardSum.setSum(currentSum + card.getValue());
+        if (card1.getName().equals("A") || card2.getName().equals("A")) {
+            return getSum(card1.getValue(), card2.getValue(), true);
+        }
+        return getSum(card1.getValue(), card2.getValue(), false);
+    }
+
+    private static CardSum getSum(int cardValue, int cardValue2, boolean isAce) {
+        final CardSum cardSum = new CardSum(0);
+        cardSum.setSum(cardValue + cardValue2);
+        if (isAce) {
+            cardSum.setAlternativeSum(cardValue + cardValue2 + 10);
+            return cardSum;
+        }
         return cardSum;
     }
 
@@ -42,12 +40,19 @@ public class CardSumHelper {
     }
 
     public static List<Chips> doubleChips(List<Chips> origin) {
-        List<Chips> newone = new ArrayList<>();
+        final List<Chips> newone = new ArrayList<>();
         origin.stream().filter(Objects::nonNull).forEach(c -> {
             newone.add(c);
             newone.add(c);
         });
         return newone;
+    }
+
+    public static CardSum getSumOnMoreThanTwoCards(int sum, Card card) {
+        if (card.getName().equals("A")) {
+            return getSum(sum, card.getValue(), true);
+        }
+        return getSum(sum, card.getValue(), false);
     }
 
     static class IntegerAdder {

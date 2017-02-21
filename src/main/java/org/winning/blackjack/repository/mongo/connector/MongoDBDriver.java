@@ -1,4 +1,9 @@
-package org.winning.blackjack.repository.mongoConnector;
+package org.winning.blackjack.repository.mongo.connector;
+
+import static com.codahale.metrics.health.HealthCheck.Result;
+import static com.codahale.metrics.health.HealthCheck.Result.healthy;
+import static com.codahale.metrics.health.HealthCheck.Result.unhealthy;
+import static org.winning.blackjack.repository.mongo.serializer.PlayerSchema.PLAYER;
 
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -34,13 +39,12 @@ public class MongoDBDriver {
         return Optional.of(this.db);
     }
 
-    public DBCollection getCollection(String collectionName) throws Exception {
+    public DBCollection getCollection(String collectionName) {
         if (this.getMongoDB().isPresent()) {
             return this.getMongoDB().get().getCollection(collectionName);
         }
-        throw new Exception("MongoDB " + dbName + " is not exist !");
+        throw new RuntimeException("MongoDB " + dbName + " is not exist !");
     }
-
 
     /**
      * MongoDB does not need to close any connections
@@ -56,5 +60,15 @@ public class MongoDBDriver {
             return Optional.of(mongoClient.getDatabaseNames());
         }
         return Optional.empty();
+    }
+
+    public Result isHealthy() {
+        try {
+            mongoClient.getDB(PLAYER);
+            return healthy();
+        } catch (Exception ex) {
+            logger.error(ex.getMessage(), ex);
+            return unhealthy(ex.getMessage());
+        }
     }
 }

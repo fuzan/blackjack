@@ -26,7 +26,6 @@ public class SplitPlayer {
 
         final Player player2 = new Player(name2);
         player2.getAllCards().add(firstCard);
-
         player2.setCurrentSum(getCardValue(firstCard));
         player2.setBetting(parentPlayer.getBetting());
         player2.setSplitted(true);
@@ -39,8 +38,6 @@ public class SplitPlayer {
         player2.setBindingAction(new PlayerAction());
 
         parentPlayer.setSplitted(true);
-        splitPlayers.add(player1);
-        splitPlayers.add(player2);
     }
 
     public List<Player> getSplitPlayers() {

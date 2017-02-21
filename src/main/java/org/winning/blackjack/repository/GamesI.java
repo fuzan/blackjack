@@ -7,9 +7,11 @@ import java.util.List;
 
 public interface GamesI {
 
-    List<PlayerData> getAllPlayerData() throws Exception;
+    List<PlayerData> getAllPlayerData();
 
-    void savePlayerData(PlayerData data) throws Exception;
+    void savePlayerData(PlayerData data);
 
-    void savePlayerActionData(PlayerActionsData data) throws Exception;
+    void savePlayerActionData(PlayerActionsData data);
+
+    void deletePlayerData(PlayerData data);
 }

@@ -1,22 +1,22 @@
 package components.org.winning.blackjack;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
+import org.bson.Transformer;
 import org.junit.Before;
 import org.junit.Test;
 import org.winning.blackjack.configurations.BJConfiguration;
 import org.winning.blackjack.configurations.BJMongoDbConfiguration;
-import org.winning.blackjack.deserialize.JsonDeseria;
-import org.winning.blackjack.deserialize.ObjectdeserializeInter;
 import org.winning.blackjack.entity.Card;
 import org.winning.blackjack.entity.Color;
 import org.winning.blackjack.entity.Result;
 import org.winning.blackjack.repository.GamesI;
 import org.winning.blackjack.repository.entity.PlayerData;
 import org.winning.blackjack.repository.imp.GamesImp;
-import org.winning.blackjack.repository.mongoConnector.MongoDBDriver;
+import org.winning.blackjack.repository.mongo.connector.MongoDBDriver;
+import org.winning.blackjack.repository.mongo.serializer.PlayerDataDecoder;
+import org.winning.blackjack.repository.mongo.serializer.PlayerDataEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,47 +27,60 @@ public class GamesITest {
 
     private BJConfiguration configuration;
 
-    private ObjectdeserializeInter serializer;
-
     private GamesI gamesI;
+
+    private Transformer playerDataEncoder;
+
+    private Transformer playerDataDecoder;
 
     @Before
     public void setUp() throws Exception {
+
+        playerDataEncoder = new PlayerDataEncoder();
+        playerDataDecoder = new PlayerDataDecoder();
 
         final BJMongoDbConfiguration bjMongoDbConfiguration =
                 new BJMongoDbConfiguration("localhost", 27017, "DBName");
         configuration = new BJConfiguration();
         configuration.setBJMongoDbConfiguration(bjMongoDbConfiguration);
 
-        dbDriver = new MongoDBDriver(configuration.getBJMongoDbConfiguration().getConnection(),
-                                     configuration.getBJMongoDbConfiguration().getPort(),
-                                     configuration.getBJMongoDbConfiguration().getDbName());
-
-        serializer = new JsonDeseria(new ObjectMapper());
-        gamesI = new GamesImp(dbDriver, configuration);
+        gamesI = new GamesImp(configuration, playerDataEncoder, playerDataDecoder);
     }
 
     @Test
-    public void getAllPlayerData() throws Exception {
+    public void save_query_delete() throws Exception {
 
-    }
+        //query then get nothing
 
-    @Test
-    public void savePlayerData() throws Exception {
+        // insert some data
         final PlayerData data = createPlayerData();
-        //gamesI.savePlayerData(data);
+        gamesI.savePlayerData(data);
 
-        gamesI.getAllPlayerData().stream().forEach(g -> assertTrue(g.getGameId() == 1));
-        assertTrue(gamesI.getAllPlayerData().stream().filter(g -> g.getPlayerName().equals("player1")).findAny().isPresent());
-        gamesI.getAllPlayerData().stream().forEach(g -> assertTrue(g.getHandsId() == 1));
-        gamesI.getAllPlayerData().stream().forEach(g -> assertTrue(g.getStatus().equals(Result.LOST)));
-        gamesI.getAllPlayerData().stream().forEach(g -> {
-            List<Card> list = g.getDealerCards();
-            list.stream().filter(c -> c.getName().equals("ten"))
-                    .forEach(c -> assertTrue(c.getColor().equals(Color.SPADE)));
-            list.stream().filter(c -> c.getName().equals("J"))
-                    .forEach(c -> assertTrue(c.getColor().equals(Color.DIAMOND)));
+        //query data
+        gamesI.getAllPlayerData().stream().forEach(p -> {
+
+            if (p.getPlayerName().equals("player1")) {
+                assertTrue(true);
+            } else if (p.getHandsId() == 1) {
+                assertTrue(true);
+            } else if (p.getGameId() == 1) {
+                assertTrue(true);
+            } else if (p.getStatus().equals(Result.LOST.name())) {
+                assertTrue(true);
+            } else if (p.getAllCards().length > 0) {
+                p.getAllCards()[0].stream().filter(c -> c.getName().equals("ten"))
+                        .forEach(c -> assertTrue(c.getColor().equals(Color.SPADE)));
+                p.getAllCards()[0].stream().filter(c -> c.getName().equals("J"))
+                        .forEach(c -> assertTrue(c.getColor().equals(Color.DIAMOND)));
+            } else {
+                fail();
+            }
         });
+
+        //delete all data
+        gamesI.getAllPlayerData().forEach(p -> gamesI.deletePlayerData(p));
+        final List l = gamesI.getAllPlayerData();
+        assertTrue(l.isEmpty());
     }
 
     private PlayerData createPlayerData() {

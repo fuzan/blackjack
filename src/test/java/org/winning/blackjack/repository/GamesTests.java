@@ -22,7 +22,7 @@ import org.winning.blackjack.deserialize.ObjectdeserializeInter;
 import org.winning.blackjack.gamblingactions.BlackJackGame;
 import org.winning.blackjack.people.Dealer;
 import org.winning.blackjack.people.Player;
-import org.winning.blackjack.repository.mongoConnector.MongoDBDriver;
+import org.winning.blackjack.repository.mongo.connector.MongoDBDriver;
 
 import java.util.ArrayList;
 import java.util.List;

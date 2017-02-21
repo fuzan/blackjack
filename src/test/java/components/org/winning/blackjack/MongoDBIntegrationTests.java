@@ -1,16 +1,15 @@
 package components.org.winning.blackjack;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
+import org.bson.Transformer;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.winning.blackjack.configurations.BJConfiguration;
-import org.winning.blackjack.deserialize.JsonDeseria;
-import org.winning.blackjack.deserialize.ObjectdeserializeInter;
 import org.winning.blackjack.repository.GamesI;
 import org.winning.blackjack.repository.imp.GamesImp;
-import org.winning.blackjack.repository.mongoConnector.MongoDBDriver;
+import org.winning.blackjack.repository.mongo.connector.MongoDBDriver;
+import org.winning.blackjack.repository.mongo.serializer.PlayerDataDecoder;
+import org.winning.blackjack.repository.mongo.serializer.PlayerDataEncoder;
 
 public class MongoDBIntegrationTests {
 
@@ -24,14 +23,16 @@ public class MongoDBIntegrationTests {
 
     private BJConfiguration configuration;
 
-    private ObjectdeserializeInter<String> serializer;
+    private Transformer encoder;
+    private Transformer decoder;
 
     @Before
     public void setUp() throws Exception {
         dbDriver = new MongoDBDriver(ip, port, dbName);
         configuration = new BJConfiguration();
-        serializer = new JsonDeseria(new ObjectMapper());
-        gamesI = new GamesImp(dbDriver, configuration);
+        encoder = new PlayerDataEncoder();
+        decoder = new PlayerDataDecoder();
+        gamesI = new GamesImp(configuration, encoder, decoder);
     }
 
     @Test
@@ -46,6 +47,4 @@ public class MongoDBIntegrationTests {
     public void mongoDBQuery() {
 
     }
-
-
 }

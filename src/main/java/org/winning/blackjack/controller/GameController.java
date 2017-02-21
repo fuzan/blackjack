@@ -32,15 +32,24 @@ public class GameController {
     @GET
     @Path("/{id}")
     @Timed
-    public BlackJackStateMachine joinGame(@PathParam("id") Optional<String> id){
+    public BlackJackStateMachine joinGame(@PathParam("id") Optional<String> id) {
         return null;
     }
 
     @GET
     @Path("/list")
     @Timed
-    public BlackJackStateMachine getGame(){
+    public BlackJackStateMachine getGame() {
         return null;
     }
 
+    @GET
+    @Path("/{id}/{action}/{playerId}")
+    public BlackJackStateMachine playerAction(
+            @PathParam("action") String action,
+            @PathParam("id") String id,
+            @PathParam("playerId") String playerId) {
+
+        return null;
+    }
 }

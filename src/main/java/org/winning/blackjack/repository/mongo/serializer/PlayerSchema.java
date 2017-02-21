@@ -1,4 +1,4 @@
-package org.winning.blackjack.repository.mongoConnector;
+package org.winning.blackjack.repository.mongo.serializer;
 
 public interface PlayerSchema {
 
