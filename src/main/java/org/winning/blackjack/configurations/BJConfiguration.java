@@ -2,22 +2,27 @@ package org.winning.blackjack.configurations;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 import io.dropwizard.Configuration;
 
 public class BJConfiguration extends Configuration {
 
-    @NotEmpty
+    @Min(1)
+    @Max(16)
     private int deckNumber;
 
-    @NotEmpty
+    @Min(3)
+    @Max(9)
     private int factor;
 
-    @NotEmpty
+    @Min(2)
+    @Max(16)
     private int enumerator;
 
-    @NotEmpty
+    @Min(20)
+    @Max(100000)
     private int playerWaiting;
 
     private BJMongoDbConfiguration BJMongoDbConfiguration;

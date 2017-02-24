@@ -3,6 +3,7 @@ playerWaiting: 20
 factor: 3
 enumerator: 2
 
-mongoDB:
-    connection: "localhost"
-    port: 27017
+bjmongoDbConfiguration:
+  connection: "localhost"
+  port: 27017
+  dbName: "GameData"
