@@ -1,6 +1,6 @@
 package org.winning.blackjack;
 
-import org.winning.blackjack.CardValueUtil.BJLogger;
+import org.winning.blackjack.util.card.BJLogger;
 import org.winning.blackjack.gamblingactions.BlackJackGame;
 import org.winning.blackjack.gamblingactions.BlackJackStateMachine;
 import org.winning.blackjack.gamblingactions.DealerAction;
@@ -33,14 +33,14 @@ public class BlackJackGameEntry {
         player3.setBindingAction(new PlayerAction());
         player3.setStake(10000);
 
-
         List<Player> players = new LinkedList<>();
         players.add(player1);
         players.add(player2);
         players.add(player3);
 
+        final PlayerInteractionInput input = new PlayerInteractionInput();
         final BlackJackGame blackJackGame = new BlackJackGame(dealer, players, DECK_NUMBER, new BJLogger());
-        BlackJackStateMachine machine = new BlackJackStateMachine(new PlayerInteractionInput());
+        BlackJackStateMachine machine = new BlackJackStateMachine(input);
         machine.playBlackJack(blackJackGame);
     }
 }

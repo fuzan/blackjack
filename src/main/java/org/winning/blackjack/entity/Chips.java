@@ -12,7 +12,7 @@ public enum Chips {
     FIVE_K(5000),
     TEN_K(10000),
     TWENTY_K(20000),
-    HUNDREN_K(100000);
+    HUNDRED_K(100000);
 
     private int value;
 
@@ -61,7 +61,7 @@ public enum Chips {
                 chip = Chips.TWENTY_K;
                 break;
             case 100000:
-                chip = Chips.HUNDREN_K;
+                chip = Chips.HUNDRED_K;
                 break;
             default:
                 chip = Chips.HUNDRED;

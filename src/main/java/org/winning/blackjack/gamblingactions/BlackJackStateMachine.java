@@ -3,7 +3,7 @@ package org.winning.blackjack.gamblingactions;
 import static org.winning.blackjack.entity.Action.HIT;
 import static org.winning.blackjack.entity.Action.STAND;
 
-import org.winning.blackjack.CardValueUtil.BJLogger;
+import org.winning.blackjack.util.card.BJLogger;
 import org.winning.blackjack.entity.Action;
 import org.winning.blackjack.input.PlayerInteractionInput;
 import org.winning.blackjack.people.Player;
@@ -62,7 +62,6 @@ public class BlackJackStateMachine {
         }
 
         blackJackGame.dealCardsToDealer();
-
         blackJackGame.getPlayers().stream().filter(p -> p.isInGame()).forEach(blackJackGame::begin);
 
         for (Player player : blackJackGame.getPlayers()) {
@@ -82,13 +81,15 @@ public class BlackJackStateMachine {
                 }
             }
         }
+
         blackJackGame.endGame();
         blackJackGame.getStandbyPlayers().stream().forEach(blackJackGame::endGamePlayer);
         blackJackGame.clearStandBy();
     }
 
     private void splitPlayerTilStandOrBusted(BlackJackGame blackJackGame, Player player) {
-        for (Player splitPlayer : player.getTwoSplitedPlayer()) {
+
+        for (Player splitPlayer : player.getSplitedPlayer().getSplitPlayers()) {
             while (true) {
                 if (hitUntilStandOrBusted(blackJackGame, splitPlayer)) {
                     break;

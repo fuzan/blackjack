@@ -1,5 +1,4 @@
-package org.winning.blackjack.CardValueUtil;
-
+package org.winning.blackjack.util.card;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +39,6 @@ public class BJLogger {
         logger.info("{} BJ !, you are lucky ! : ", player.getName());
     }
 
-
     public void pleaseBet(BaseUser player) {
         logger.info("{}, please bet : ", player.getName());
     }
@@ -50,11 +48,11 @@ public class BJLogger {
     }
 
     private String getCardDetails(Card card) {
-        StringBuilder builder = new StringBuilder();
-        builder.append(" card value :" + card.getValue());
-        builder.append(" card name :" + card.getName());
-        builder.append(" card color :" + card.getColor().name());
-        builder.append(" card deck : " + card.getDeckId());
-        return builder.toString();
+
+        return String.format(  "\ncard value is %s, \n"
+                             + "card name is %s, \n"
+                             + "card color is %s, \n"
+                             + "card deck is %s\n", card.getValue(), card.getName(), card.getColor().name(),
+                             card.getDeckId());
     }
 }

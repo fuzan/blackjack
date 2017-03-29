@@ -1,6 +1,6 @@
 package org.winning.blackjack.gamblingactions;
 
-import org.winning.blackjack.CardValueUtil.CardSumHelper;
+import org.winning.blackjack.util.card.CardSumHelper;
 import org.winning.blackjack.entity.Card;
 import org.winning.blackjack.entity.CardSum;
 import org.winning.blackjack.people.BaseUser;

@@ -1,6 +1,6 @@
 package org.winning.blackjack.input;
 
-import org.winning.blackjack.CardValueUtil.BJLogger;
+import org.winning.blackjack.util.card.BJLogger;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -35,7 +35,7 @@ public class PlayerInteractionInput {
     }
 
     public String askPlayerAction() {
-        System.out.println("hit/split/double/stand ?");
+        System.out.println("hit/split/double/stand/surrander ?");
         try {
             final BufferedReader reader = getUserInput();
             return reader.readLine();

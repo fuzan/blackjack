@@ -12,19 +12,19 @@ public class Player extends BaseUser {
     private List<Chips> betting;
     private boolean splitted;
     private Player parentPlayer;
-    private Player[] twoSplitedPlayer = new Player[2];
+    private SplitPlayer splitedPlayer;
     private boolean inGame;
 
     public Player(String name) {
         super(name);
     }
 
-    public Player[] getTwoSplitedPlayer() {
-        return twoSplitedPlayer;
+    public SplitPlayer getSplitedPlayer() {
+        return splitedPlayer;
     }
 
-    public void setTwoSplitedPlayer(Player[] twoSplitedPlayer) {
-        this.twoSplitedPlayer = twoSplitedPlayer;
+    public void setSplitedPlayer(SplitPlayer splitedPlayer) {
+        this.splitedPlayer = splitedPlayer;
     }
 
     public Player getParentPlayer() {

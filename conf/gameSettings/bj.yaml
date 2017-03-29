@@ -1,0 +1,14 @@
+deckNumber: 4
+playerWaiting: 20
+factor: 3
+enumerator: 2
+
+bjmongoDbConfiguration:
+  connection: "localhost"
+  port: 27017
+  dbName: "GameData"
+
+elasticSearch:
+  endpoint: "localhost"
+  port: 9300
+  localPath: "/usr/local/Cellar/elasticsearch@2.4/2.4.4_1/"

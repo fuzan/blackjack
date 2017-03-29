@@ -3,7 +3,7 @@ package org.winning.blackjack.gamblingactions;
 import static org.winning.blackjack.entity.Result.GO_TO_DEALER;
 import static org.winning.blackjack.entity.Result.MIDDLE_GAME;
 
-import org.winning.blackjack.CardValueUtil.CardSumHelper;
+import org.winning.blackjack.util.card.CardSumHelper;
 import org.winning.blackjack.entity.Card;
 import org.winning.blackjack.entity.CardSum;
 import org.winning.blackjack.entity.Result;
@@ -59,6 +59,7 @@ public class PlayerAction extends PlayerDealerCommonAction {
                 ((Player) player)
                         .setStake(((Player) player).getStake() - CardSumHelper
                                 .calculateBetting(((Player) player).getBetting()));
+                ((Player) player).setSplitedPlayer(splitPlayer);
                 return MIDDLE_GAME;
             }
         }

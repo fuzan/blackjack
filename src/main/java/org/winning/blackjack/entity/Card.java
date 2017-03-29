@@ -1,7 +1,11 @@
 package org.winning.blackjack.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.io.Serializable;
+
 @SuppressWarnings({"PMD.ShortClassName"})
-public class Card {
+public class Card implements Serializable {
 
     private int value;
     private Color color;
@@ -15,7 +19,7 @@ public class Card {
         setValue(name);
     }
 
-
+    @JsonProperty
     public int getDeckId() {
         return deckId;
     }
@@ -24,6 +28,7 @@ public class Card {
         this.deckId = deckId;
     }
 
+    @JsonProperty
     public boolean isShow() {
         return show;
     }
@@ -32,6 +37,7 @@ public class Card {
         this.show = show;
     }
 
+    @JsonProperty
     public int getValue() {
         return value;
     }
@@ -76,6 +82,7 @@ public class Card {
         }
     }
 
+    @JsonProperty
     public Color getColor() {
         return color;
     }
@@ -84,11 +91,23 @@ public class Card {
         this.color = color;
     }
 
+    @JsonProperty
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Card{" +
+               "value=" + value +
+               ", color=" + color +
+               ", name='" + name + '\'' +
+               ", deckId=" + deckId +
+               ", show=" + show +
+               '}';
     }
 }

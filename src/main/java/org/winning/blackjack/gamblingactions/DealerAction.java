@@ -3,7 +3,7 @@ package org.winning.blackjack.gamblingactions;
 import static org.winning.blackjack.entity.Result.GO_TO_DEALER;
 import static org.winning.blackjack.entity.Result.JUDGE_BETTING;
 
-import org.winning.blackjack.CardValueUtil.CardSumHelper;
+import org.winning.blackjack.util.card.CardSumHelper;
 import org.winning.blackjack.entity.Card;
 import org.winning.blackjack.entity.Result;
 
