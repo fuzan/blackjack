@@ -3,7 +3,7 @@ package org.winning.blackjack.gamblingactions;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.winning.blackjack.CardValueUtil.BJLogger;
+import org.winning.blackjack.util.card.BJLogger;
 import org.winning.blackjack.people.Dealer;
 import org.winning.blackjack.people.Player;
 

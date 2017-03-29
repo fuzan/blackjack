@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.winning.blackjack.entity.Card;
 import org.winning.blackjack.entity.Color;
 import org.winning.blackjack.people.Player;
+import org.winning.blackjack.util.card.BJLogger;
 
 public class BJLoggerTest {
 

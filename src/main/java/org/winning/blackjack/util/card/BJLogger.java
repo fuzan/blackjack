@@ -1,4 +1,4 @@
-package org.winning.blackjack.CardValueUtil;
+package org.winning.blackjack.util.card;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

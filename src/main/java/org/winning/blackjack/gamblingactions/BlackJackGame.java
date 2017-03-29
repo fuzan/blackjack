@@ -4,8 +4,8 @@ import static org.winning.blackjack.entity.Result.GO_TO_DEALER;
 import static org.winning.blackjack.entity.Result.LOST;
 import static org.winning.blackjack.entity.Result.WIN;
 
-import org.winning.blackjack.CardValueUtil.BJLogger;
-import org.winning.blackjack.CardValueUtil.CardSumHelper;
+import org.winning.blackjack.util.card.BJLogger;
+import org.winning.blackjack.util.card.CardSumHelper;
 import org.winning.blackjack.entity.Action;
 import org.winning.blackjack.entity.Card;
 import org.winning.blackjack.entity.Chips;

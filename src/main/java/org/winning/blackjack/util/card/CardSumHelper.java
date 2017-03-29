@@ -1,4 +1,4 @@
-package org.winning.blackjack.CardValueUtil;
+package org.winning.blackjack.util.card;
 
 import org.winning.blackjack.entity.Card;
 import org.winning.blackjack.entity.CardSum;

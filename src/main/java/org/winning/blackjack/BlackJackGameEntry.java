@@ -1,6 +1,6 @@
 package org.winning.blackjack;
 
-import org.winning.blackjack.CardValueUtil.BJLogger;
+import org.winning.blackjack.util.card.BJLogger;
 import org.winning.blackjack.gamblingactions.BlackJackGame;
 import org.winning.blackjack.gamblingactions.BlackJackStateMachine;
 import org.winning.blackjack.gamblingactions.DealerAction;

@@ -10,6 +10,7 @@ import java.util.Optional;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -34,12 +35,12 @@ public class GameController {
         return Optional.of("hello world!").get();
     }
 
-//    @GET
-//    @Path("/{id}")
-//    @Timed
-//    public BlackJackStateMachine joinGame(@PathParam("id") Optional<String> id) {
-//        return null;
-//    }
+    @GET
+    @Path("/{id}")
+    @Timed
+    public int joinGame(@PathParam("id") Optional<String> id) {
+        return 0;
+    }
 //
 //    @GET
 //    @Path("/list")

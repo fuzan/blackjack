@@ -1,6 +1,6 @@
 package org.winning.blackjack.input;
 
-import org.winning.blackjack.CardValueUtil.BJLogger;
+import org.winning.blackjack.util.card.BJLogger;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

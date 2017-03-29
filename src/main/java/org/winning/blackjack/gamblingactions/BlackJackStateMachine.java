@@ -3,7 +3,7 @@ package org.winning.blackjack.gamblingactions;
 import static org.winning.blackjack.entity.Action.HIT;
 import static org.winning.blackjack.entity.Action.STAND;
 
-import org.winning.blackjack.CardValueUtil.BJLogger;
+import org.winning.blackjack.util.card.BJLogger;
 import org.winning.blackjack.entity.Action;
 import org.winning.blackjack.input.PlayerInteractionInput;
 import org.winning.blackjack.people.Player;

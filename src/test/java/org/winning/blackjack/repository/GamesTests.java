@@ -16,7 +16,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.winning.blackjack.CardValueUtil.BJLogger;
+import org.winning.blackjack.util.card.BJLogger;
 import org.winning.blackjack.configurations.BJConfiguration;
 import org.winning.blackjack.deserialize.ObjectdeserializeInter;
 import org.winning.blackjack.gamblingactions.BlackJackGame;
